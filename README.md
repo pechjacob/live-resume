@@ -8,7 +8,7 @@ Beautiful Responsive Interactive Resume 📄 using html, css and javascript. Lig
 
 [Check Me Out On LinkedIn](https://www.linkedin.com/in/jacobpech/)
 
-![Resume cv](/preview.png)
+![Resume cv](src/assets/images/preview.png)
 
 ## Run Locally
 
