@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" class="antialiased" style="scroll-behavior: smooth;">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jacob Pech - Innovative Business Visionary</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              'resume-dark': '#1a1a1a',
+              'resume-paper': '#fdfdfd',
+              'matrix-green': '#0F0',
+            },
+            screens: {
+              'print': {'raw': 'print'},
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            }
+          }
+        }
+      }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+      @media print {
+        @page { margin: 0; size: auto; }
+        body { 
+          margin: 0 !important;
+          padding: 0.5cm !important;
+          background-color: white !important;
+          color: black !important;
+          -webkit-print-color-adjust: exact; 
+          print-color-adjust: exact; 
+        }
+        
+        /* Hide interactive elements and background */
+        .no-print, canvas, button { 
+          display: none !important; 
+        }
+        
+        .print-visible { display: block !important; }
+        
+        /* Resume container reset */
+        .resume-container { 
+          box-shadow: none !important; 
+          margin: 0 !important; 
+          width: 100% !important; 
+          max-width: none !important;
+          background: white !important;
+          color: black !important;
+          border: none !important;
+        }
+
+        /* Ensure columns flow correctly */
+        #sidebar, #experience {
+          background: white !important;
+          color: black !important;
+          border-color: #e5e7eb !important; /* gray-200 */
+        }
+        
+        /* Page break handling */
+        h1, h2, h3, h4 { break-after: avoid; }
+        img { break-inside: avoid; }
+        ul, li { break-inside: auto; }
+      }
+
+      /* Custom scrollbar for better aesthetics */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1; 
+      }
+      .dark ::-webkit-scrollbar-track {
+        background: #2d2d2d;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #888; 
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #555; 
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0"
+  }
+}
+</script>
+</head>
+  <body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+    <div id="root"></div>
+    <script type="module" src="./index.tsx"></script>
+  </body>
+</html>
