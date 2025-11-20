@@ -1,5 +1,6 @@
 
 import { ResumeData } from './types';
+import headshot from './src/assets/images/Headshot.png';
 
 export const RESUME_DATA: ResumeData = {
   personal: {
@@ -9,7 +10,7 @@ export const RESUME_DATA: ResumeData = {
     email: "pechjacob@gmail.com",
     phone: "(719) 401-2420",
     avatarUrl: "https://github.com/pechjacob.png",
-    avatarHoverUrl: "https://images.unsplash.com/photo-1615813967515-e1838c1c5116?q=80&w=400&auto=format&fit=crop",
+    avatarHoverUrl: headshot,
     about: "Cyber Consultant and Systems Engineer with 10+ years of experience across cybersecurity, network engineering, research, and DevSecOps, leading secure system design and modernization for national defense and critical infrastructure. Cleared TS/SCI-eligible and skilled at translating mission goals into resilient, scalable architectures with a focus on AI/ML automation and energy-system innovation."
   },
   socials: [
