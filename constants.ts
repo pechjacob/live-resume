@@ -113,7 +113,8 @@ export const RESUME_DATA: ResumeData = {
         "Fully Remote",
         "Realistic work life balance"
       ],
-      isFuture: true
+      isFuture: true,
+      hidden: true
     },
     {
       id: "exp-saic",

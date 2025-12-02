@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Moon, Sun, Home, User, GraduationCap, Briefcase, FileText, Award, LayoutGrid, Medal } from 'lucide-react';
+import { Moon, Sun, Home, User, GraduationCap, Briefcase, FileText, Award, LayoutGrid, Medal, Download, Shield, Globe, Play, Pause } from 'lucide-react';
 import MatrixBackground from './components/MatrixBackground';
 import Sidebar from './components/Sidebar';
 import ExperienceSection from './components/ExperienceSection';
@@ -15,6 +15,8 @@ function App() {
   });
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isAutoScrolling, setIsAutoScrolling] = useState(false);
+  const [autoScrollIntervalId, setAutoScrollIntervalId] = useState<number | null>(null);
 
   useEffect(() => {
     if (darkMode) {
@@ -41,6 +43,75 @@ function App() {
     }
   };
 
+  const startAutoScroll = () => {
+    if (autoScrollIntervalId) return; // Already scrolling
+
+    setIsAutoScrolling(true);
+    const intervalId = window.setInterval(() => {
+      window.scrollBy({
+        top: 1, // Scroll 1px at a time for smooth effect
+        behavior: 'auto' // Use auto instead of smooth for precise control
+      });
+    }, 20); // Every 20ms = 50 pixels per second
+
+    setAutoScrollIntervalId(intervalId);
+  };
+
+  const stopAutoScroll = () => {
+    if (autoScrollIntervalId) {
+      clearInterval(autoScrollIntervalId);
+      setAutoScrollIntervalId(null);
+    }
+    setIsAutoScrolling(false);
+  };
+
+  const toggleAutoScroll = () => {
+    if (isAutoScrolling) {
+      stopAutoScroll();
+    } else {
+      startAutoScroll();
+    }
+  };
+
+  // Auto-start scroll on mobile after 2-3 seconds
+  useEffect(() => {
+    const isMobile = window.innerWidth < 768;
+    if (!isMobile) return;
+
+    const timer = setTimeout(() => {
+      startAutoScroll();
+    }, 2500); // 2.5 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Stop auto-scroll on user touch/interaction
+  useEffect(() => {
+    const handleUserInteraction = () => {
+      if (isAutoScrolling) {
+        stopAutoScroll();
+      }
+    };
+
+    // Listen for touch and wheel events
+    window.addEventListener('touchstart', handleUserInteraction);
+    window.addEventListener('wheel', handleUserInteraction);
+
+    return () => {
+      window.removeEventListener('touchstart', handleUserInteraction);
+      window.removeEventListener('wheel', handleUserInteraction);
+    };
+  }, [isAutoScrolling]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (autoScrollIntervalId) {
+        clearInterval(autoScrollIntervalId);
+      }
+    };
+  }, [autoScrollIntervalId]);
+
   return (
     <div className="min-h-screen relative font-sans selection:bg-green-300 selection:text-green-900">
       {/* Matrix Background - Visible in both modes, style adapts. Hidden in print via CSS in component */}
@@ -49,14 +120,14 @@ function App() {
       {/* Print-safe container setup */}
       {/* In screen mode: centered container with shadow. In print mode: simple full width div. */}
       <div className="relative z-10 min-h-screen p-0 md:p-8 lg:p-12 flex justify-center items-start print:p-0">
-        
+
         {/* The "Paper" - Resume Card */}
-        <div className="resume-container w-full max-w-6xl bg-white/95 dark:bg-[#121212]/90 backdrop-blur-sm shadow-2xl rounded-none md:rounded-lg overflow-hidden transition-colors duration-300 border border-transparent dark:border-gray-800 print:border-none print:shadow-none print:rounded-none print:bg-white print:text-black pb-16 md:pb-0">
-          
-          {/* Theme Toggle - Absolute Top Right - Hidden in Print */}
+        <div className="resume-container w-full max-w-6xl bg-white/40 md:bg-white/85 dark:bg-[#121212]/60 md:dark:bg-[#121212]/90 backdrop-blur-sm shadow-2xl rounded-none md:rounded-lg overflow-hidden transition-colors duration-300 border border-transparent dark:border-gray-800 print:border-none print:shadow-none print:rounded-none print:bg-white print:text-black pb-16 md:pb-0">
+
+          {/* Desktop Theme Toggle - Absolute Top Right - Hidden in Print */}
           <button
             onClick={toggleTheme}
-            className="absolute top-4 right-4 p-2 rounded-full bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors z-50 no-print"
+            className="hidden md:block absolute top-4 right-4 p-2 rounded-full bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors z-50 no-print"
             aria-label="Toggle Theme"
           >
             {darkMode ? (
@@ -69,13 +140,14 @@ function App() {
           <div className="flex flex-col md:flex-row">
             {/* Left Column: Sidebar (Profile, Skills, Edu) */}
             {/* Light mode: bg-white (Lighter) | Dark mode: bg-[#1a1a1a] (Lighter than right) */}
-            <div className="w-full md:w-1/3 lg:w-[30%] bg-white dark:bg-[#1a1a1a] border-r border-gray-200 dark:border-gray-800 print:bg-white print:border-r print:border-gray-200" id="sidebar">
+            <div className="w-full md:w-1/3 lg:w-[30%] bg-white/50 md:bg-white/90 dark:bg-[#1a1a1a]/80 md:dark:bg-[#1a1a1a] border-r border-gray-200 dark:border-gray-800 print:bg-white print:border-r print:border-gray-200 order-1" id="sidebar">
               <Sidebar handlePrint={handlePrint} />
             </div>
 
             {/* Right Column: Experience */}
             {/* Light mode: bg-gray-50 (Slightly darker/grayer than left) | Dark mode: bg-transparent (Shows container #121212, darker than left) */}
-            <div className="w-full md:w-2/3 lg:w-[70%] bg-gray-50 dark:bg-transparent print:bg-white" id="experience">
+            {/* On mobile: order-2 to appear after sidebar (which contains About section) */}
+            <div className="hidden md:block w-full md:w-2/3 lg:w-[70%] bg-gray-50/50 md:bg-gray-50/90 dark:bg-transparent print:bg-white order-2" id="experience">
               <ExperienceSection />
             </div>
           </div>
@@ -87,10 +159,48 @@ function App() {
       {/* Light Mode: Dark Background (#333) with White Text */}
       {/* Dark Mode: White Background with Black Text */}
       <div className="md:hidden fixed bottom-0 left-0 w-full bg-[#333333] dark:bg-white border-t border-gray-700 dark:border-gray-200 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] z-[100] h-16 flex items-center justify-between px-6 no-print transition-colors duration-300">
+        <div className="flex items-center gap-2">
+          {/* Download Button */}
+          <button
+            onClick={handlePrint}
+            className="p-2 rounded-full hover:bg-white/10 dark:hover:bg-gray-100 transition-colors"
+            aria-label="Download Resume"
+          >
+            <Download size={20} className="text-white dark:text-black" />
+          </button>
+
+          {/* Theme Toggle */}
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-full hover:bg-white/10 dark:hover:bg-gray-100 transition-colors"
+            aria-label="Toggle Theme"
+          >
+            {darkMode ? (
+              <Sun size={20} className="text-yellow-400" />
+            ) : (
+              <Moon size={20} className="text-white" />
+            )}
+          </button>
+
+          {/* Auto-Scroll Play/Pause */}
+          <button
+            onClick={toggleAutoScroll}
+            className="p-2 rounded-full hover:bg-white/10 dark:hover:bg-gray-100 transition-colors"
+            aria-label={isAutoScrolling ? "Pause Auto-Scroll" : "Play Auto-Scroll"}
+          >
+            {isAutoScrolling ? (
+              <Pause size={20} className="text-white dark:text-black" />
+            ) : (
+              <Play size={20} className="text-white dark:text-black" />
+            )}
+          </button>
+        </div>
+
         <span className="font-bold text-lg tracking-tight text-white dark:text-black">
           LIVE Resume
         </span>
-        <button 
+
+        <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           className="p-2 rounded-md hover:bg-white/10 dark:hover:bg-gray-100 transition-colors focus:outline-none"
           aria-label="Toggle Menu"
@@ -102,52 +212,57 @@ function App() {
       {/* Mobile Menu Overlay (Expanded) */}
       {isMobileMenuOpen && (
         <div className="md:hidden fixed inset-x-0 bottom-16 z-[90] bg-[#333333] text-gray-200 rounded-t-3xl p-8 shadow-2xl transform transition-transform duration-300 no-print animate-in slide-in-from-bottom-10 fade-in">
-           {/* Grid Layout */}
-           <div className="grid grid-cols-2 gap-y-8 gap-x-4">
-              <button onClick={() => scrollToSection('home')} className="flex flex-col items-center gap-2 hover:text-white transition-colors">
-                <Home size={32} className="opacity-80" />
-                <span className="text-sm font-medium tracking-wide">Home</span>
-              </button>
-              
-              <button onClick={() => scrollToSection('about')} className="flex flex-col items-center gap-2 hover:text-white transition-colors">
-                <User size={32} className="opacity-80" />
-                <span className="text-sm font-medium tracking-wide">About</span>
-              </button>
+          {/* Grid Layout */}
+          <div className="grid grid-cols-2 gap-y-8 gap-x-4">
+            <button onClick={() => scrollToSection('about')} className="flex flex-col items-center gap-2 hover:text-white transition-colors">
+              <User size={32} className="opacity-80" />
+              <span className="text-sm font-medium tracking-wide">About</span>
+            </button>
 
-              <button onClick={() => scrollToSection('education')} className="flex flex-col items-center gap-2 hover:text-white transition-colors">
-                <GraduationCap size={32} className="opacity-80" />
-                <span className="text-sm font-medium tracking-wide">Education</span>
-              </button>
+            <button onClick={() => scrollToSection('experience')} className="flex flex-col items-center gap-2 hover:text-white transition-colors">
+              <Briefcase size={32} className="opacity-80" />
+              <span className="text-sm font-medium tracking-wide">Experience</span>
+            </button>
 
-              <button onClick={() => scrollToSection('skills')} className="flex flex-col items-center gap-2 hover:text-white transition-colors">
-                <FileText size={32} className="opacity-80" />
-                <span className="text-sm font-medium tracking-wide">Skills</span>
-              </button>
+            <button onClick={() => scrollToSection('clearance')} className="flex flex-col items-center gap-2 hover:text-white transition-colors">
+              <Shield size={32} className="opacity-80" />
+              <span className="text-sm font-medium tracking-wide">Clearance</span>
+            </button>
 
-              <button onClick={() => scrollToSection('experience')} className="flex flex-col items-center gap-2 hover:text-white transition-colors">
-                <Briefcase size={32} className="opacity-80" />
-                <span className="text-sm font-medium tracking-wide">Experience</span>
-              </button>
+            <button onClick={() => scrollToSection('education')} className="flex flex-col items-center gap-2 hover:text-white transition-colors">
+              <GraduationCap size={32} className="opacity-80" />
+              <span className="text-sm font-medium tracking-wide">Education</span>
+            </button>
 
-              <button onClick={() => scrollToSection('certificates')} className="flex flex-col items-center gap-2 hover:text-white transition-colors">
-                <Award size={32} className="opacity-80" />
-                <span className="text-sm font-medium tracking-wide">Certificates</span>
-              </button>
-           </div>
+            <button onClick={() => scrollToSection('certificates')} className="flex flex-col items-center gap-2 hover:text-white transition-colors">
+              <Award size={32} className="opacity-80" />
+              <span className="text-sm font-medium tracking-wide">Certificates</span>
+            </button>
+
+            <button onClick={() => scrollToSection('skills')} className="flex flex-col items-center gap-2 hover:text-white transition-colors">
+              <FileText size={32} className="opacity-80" />
+              <span className="text-sm font-medium tracking-wide">Skills</span>
+            </button>
+
+            <button onClick={() => scrollToSection('languages')} className="flex flex-col items-center gap-2 hover:text-white transition-colors">
+              <Globe size={32} className="opacity-80" />
+              <span className="text-sm font-medium tracking-wide">Languages</span>
+            </button>
+          </div>
         </div>
       )}
 
       {/* Click outside to close menu overlay */}
       {isMobileMenuOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black/20 backdrop-blur-[1px] z-[80] md:hidden no-print"
           onClick={() => setIsMobileMenuOpen(false)}
         />
       )}
-      
+
       {/* Desktop Quick Actions (Optional) */}
       <div className="fixed bottom-8 right-8 z-50 hidden md:block no-print">
-         {/* Placeholder for additional tool menu if needed */}
+        {/* Placeholder for additional tool menu if needed */}
       </div>
 
     </div>

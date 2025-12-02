@@ -6,6 +6,7 @@ export interface ExperienceItem {
   period: string;
   description: string[];
   isFuture?: boolean;
+  hidden?: boolean;
 }
 
 export interface EducationItem {
