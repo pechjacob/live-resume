@@ -85,23 +85,45 @@ function App() {
     }, 2500); // 2.5 seconds
 
     return () => clearTimeout(timer);
-  }, []); // Empty deps array is now safe
+  }, []); // Empty deps array is safe with useRef
 
   // Stop auto-scroll on user touch/interaction
   useEffect(() => {
-    const handleUserInteraction = () => {
-      if (isAutoScrolling) {
+    const lastTouchY = { current: 0 };
+
+    const handleTouchStart = (e: TouchEvent) => {
+      lastTouchY.current = e.touches[0].clientY;
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!isAutoScrolling) return;
+
+      const currentY = e.touches[0].clientY;
+      const deltaY = Math.abs(currentY - lastTouchY.current);
+
+      // If user moves finger more than 5px threshold, stop auto-scroll
+      if (deltaY > 5) {
+        console.log('[Auto-scroll] User touch detected, stopping auto-scroll');
         stopAutoScroll();
       }
     };
 
-    // Listen for touch and wheel events
-    window.addEventListener('touchstart', handleUserInteraction);
-    window.addEventListener('wheel', handleUserInteraction);
+    const handleWheel = () => {
+      if (isAutoScrolling) {
+        console.log('[Auto-scroll] Wheel event detected, stopping auto-scroll');
+        stopAutoScroll();
+      }
+    };
+
+    // Listen for touch and wheel events with passive:true for iOS performance
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
+    window.addEventListener('wheel', handleWheel, { passive: true });
 
     return () => {
-      window.removeEventListener('touchstart', handleUserInteraction);
-      window.removeEventListener('wheel', handleUserInteraction);
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('wheel', handleWheel);
     };
   }, [isAutoScrolling]);
 
