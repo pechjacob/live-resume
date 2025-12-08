@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Moon, Sun, Home, User, GraduationCap, Briefcase, FileText, Award, LayoutGrid, Medal, Download, Shield, Globe, Play, Pause } from 'lucide-react';
 import MatrixBackground from './components/MatrixBackground';
 import Sidebar from './components/Sidebar';
@@ -16,7 +16,7 @@ function App() {
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isAutoScrolling, setIsAutoScrolling] = useState(false);
-  const [autoScrollIntervalId, setAutoScrollIntervalId] = useState<number | null>(null);
+  const autoScrollIntervalRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (darkMode) {
@@ -44,7 +44,7 @@ function App() {
   };
 
   const startAutoScroll = () => {
-    if (autoScrollIntervalId) return; // Already scrolling
+    if (autoScrollIntervalRef.current) return; // Already scrolling
 
     setIsAutoScrolling(true);
     const intervalId = window.setInterval(() => {
@@ -54,13 +54,13 @@ function App() {
       });
     }, 20); // Every 20ms = 50 pixels per second
 
-    setAutoScrollIntervalId(intervalId);
+    autoScrollIntervalRef.current = intervalId;
   };
 
   const stopAutoScroll = () => {
-    if (autoScrollIntervalId) {
-      clearInterval(autoScrollIntervalId);
-      setAutoScrollIntervalId(null);
+    if (autoScrollIntervalRef.current) {
+      clearInterval(autoScrollIntervalRef.current);
+      autoScrollIntervalRef.current = null;
     }
     setIsAutoScrolling(false);
   };
@@ -78,12 +78,14 @@ function App() {
     const isMobile = window.innerWidth < 768;
     if (!isMobile) return;
 
+    console.log('[Auto-scroll] Mobile detected, starting auto-scroll in 2.5s...');
     const timer = setTimeout(() => {
+      console.log('[Auto-scroll] Triggering auto-scroll now');
       startAutoScroll();
     }, 2500); // 2.5 seconds
 
     return () => clearTimeout(timer);
-  }, []);
+  }, []); // Empty deps array is now safe
 
   // Stop auto-scroll on user touch/interaction
   useEffect(() => {
@@ -106,11 +108,11 @@ function App() {
   // Cleanup on unmount
   useEffect(() => {
     return () => {
-      if (autoScrollIntervalId) {
-        clearInterval(autoScrollIntervalId);
+      if (autoScrollIntervalRef.current) {
+        clearInterval(autoScrollIntervalRef.current);
       }
     };
-  }, [autoScrollIntervalId]);
+  }, []);
 
   return (
     <div className="min-h-screen relative font-sans selection:bg-green-300 selection:text-green-900">
