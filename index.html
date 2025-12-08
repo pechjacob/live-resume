@@ -5,27 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jacob Pech - Innovative Business Visionary</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            'resume-dark': '#1a1a1a',
-            'resume-paper': '#fdfdfd',
-            'matrix-green': '#0F0',
-          },
-          screens: {
-            'print': { 'raw': 'print' },
-          },
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-          }
-        }
-      }
-    }
-  </script>
+  <link rel="icon" type="image/svg+xml" href="/live-resume/assets/favicon-CTBp5YOa.svg" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet">
   <style>
@@ -104,7 +84,8 @@
       /* Prevent page breaks inside experience items */
       [data-job-id] {
         page-break-inside: avoid !important;
-        break-inside: avoid !important;
+        -moz-column-break-inside: avoid !important;
+             break-inside: avoid !important;
       }
 
       /* Add spacing between pages */
@@ -117,41 +98,22 @@
       h2,
       h3,
       h4 {
-        break-after: avoid;
+        -moz-column-break-after: avoid;
+             break-after: avoid;
         page-break-after: avoid;
       }
 
       img {
-        break-inside: avoid;
+        -moz-column-break-inside: avoid;
+             break-inside: avoid;
         page-break-inside: avoid;
       }
 
       ul,
       li {
-        break-inside: auto;
+        -moz-column-break-inside: auto;
+             break-inside: auto;
       }
-    }
-
-    /* Custom scrollbar for better aesthetics */
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: #f1f1f1;
-    }
-
-    .dark ::-webkit-scrollbar-track {
-      background: #2d2d2d;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: #888;
-      border-radius: 4px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: #555;
     }
   </style>
 
@@ -165,7 +127,8 @@
   }
 }
 </script>
-  <script type="module" crossorigin src="/live-resume/assets/index-DYIDi6Bj.js"></script>
+  <script type="module" crossorigin src="/live-resume/assets/index-CDK0JRDw.js"></script>
+  <link rel="stylesheet" crossorigin href="/live-resume/assets/index-BmTIwwxh.css">
 </head>
 
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
