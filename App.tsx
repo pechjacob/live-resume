@@ -44,9 +44,17 @@ function App() {
   };
 
   const startAutoScroll = () => {
-    if (autoScrollIntervalRef.current) return; // Already scrolling
+    console.log(`[Auto-scroll DEBUG] startAutoScroll called. Current intervalRef: ${autoScrollIntervalRef.current}`);
 
+    if (autoScrollIntervalRef.current) {
+      console.log('[Auto-scroll DEBUG] Already scrolling, returning early');
+      return; // Already scrolling
+    }
+
+    console.log('[Auto-scroll DEBUG] Setting isAutoScrolling to true');
     setIsAutoScrolling(true);
+
+    console.log('[Auto-scroll DEBUG] Creating setInterval...');
     const intervalId = window.setInterval(() => {
       window.scrollBy({
         top: 1, // Scroll 1px at a time for smooth effect
@@ -54,6 +62,7 @@ function App() {
       });
     }, 20); // Every 20ms = 50 pixels per second
 
+    console.log(`[Auto-scroll DEBUG] setInterval created with ID: ${intervalId}`);
     autoScrollIntervalRef.current = intervalId;
   };
 
@@ -76,15 +85,26 @@ function App() {
   // Auto-start scroll on mobile after 2-3 seconds
   useEffect(() => {
     const isMobile = window.innerWidth < 768;
-    if (!isMobile) return;
+    console.log(`[Auto-scroll DEBUG] Window width: ${window.innerWidth}, isMobile: ${isMobile}`);
+    console.log(`[Auto-scroll DEBUG] User agent: ${navigator.userAgent}`);
+
+    if (!isMobile) {
+      console.log('[Auto-scroll DEBUG] Not mobile, skipping auto-scroll');
+      return;
+    }
 
     console.log('[Auto-scroll] Mobile detected, starting auto-scroll in 2.5s...');
     const timer = setTimeout(() => {
       console.log('[Auto-scroll] Triggering auto-scroll now');
+      console.log(`[Auto-scroll DEBUG] isAutoScrolling before start: ${isAutoScrolling}`);
       startAutoScroll();
+      console.log(`[Auto-scroll DEBUG] startAutoScroll() called`);
     }, 2500); // 2.5 seconds
 
-    return () => clearTimeout(timer);
+    return () => {
+      console.log('[Auto-scroll DEBUG] Cleanup: clearing timer');
+      clearTimeout(timer);
+    };
   }, []); // Empty deps array is safe with useRef
 
   // Stop auto-scroll on user touch/interaction
