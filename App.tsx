@@ -28,11 +28,13 @@ function App() {
   }, []);
 
   const handleStartExperience = () => {
+    // 1. Hide overlay (reveals resume)
     setShowStartOverlay(false);
-    // Start auto-scroll after user gesture (iOS requirement)
+
+    // 2. Start scrolling after EncryptedText effect finishes (2.5s)
     setTimeout(() => {
       startAutoScroll();
-    }, 500);
+    }, 2500);
   };
 
   useEffect(() => {
@@ -246,9 +248,9 @@ function App() {
             aria-label={isAutoScrolling ? "Pause Auto-Scroll" : "Play Auto-Scroll"}
           >
             {isAutoScrolling ? (
-              <Pause size={20} className="text-white dark:text-black" />
+              <Pause size={20} className="text-red-500" />
             ) : (
-              <Play size={20} className="text-white dark:text-black" />
+              <Play size={20} className="text-green-500" />
             )}
           </button>
         </div>
@@ -348,14 +350,18 @@ function App() {
                 <div className="absolute inset-0 border border-matrix-green/80 bg-matrix-green/10 shadow-[0_0_20px_rgba(0,255,0,0.2)] group-hover:bg-matrix-green/20 group-hover:shadow-[0_0_30px_rgba(0,255,0,0.4)] transition-all duration-300" />
 
                 {/* Button Text */}
-                <span className="relative z-10 flex items-center justify-center gap-3 text-matrix-green font-bold text-sm tracking-widest uppercase group-hover:text-white transition-colors">
-                  Launch Experience <span className="animate-pulse">_</span>
+                <span className="relative z-10 flex items-center justify-center gap-2 text-matrix-green font-bold text-sm tracking-widest uppercase group-hover:text-white transition-colors font-mono">
+                  Launch Experience
+                  <span className="flex items-center gap-1 ml-2 normal-case">
+                    <span className="text-blue-400">~</span>
+                    <span className="text-white">$</span>
+                    <span className="w-2.5 h-5 bg-white animate-pulse inline-block align-middle" />
+                  </span>
                 </span>
               </button>
             </div>
           </div>
         </div>
-      )}
 
       {/* Desktop Quick Actions (Optional) */}
       <div className="fixed bottom-8 right-8 z-50 hidden md:block no-print">
