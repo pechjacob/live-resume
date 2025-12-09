@@ -115,7 +115,7 @@ const Sidebar: React.FC<SidebarProps> = ({ handlePrint }) => {
           {/* Print-only static human image */}
           <div className="hidden print:block w-full h-full rounded-full overflow-hidden border-4 border-gray-300 shadow-lg relative z-20">
             <img
-              src={personal.avatarUrl}
+              src={personal.avatarHoverUrl || personal.avatarUrl}
               alt={personal.name}
               className="w-full h-full object-cover"
             />

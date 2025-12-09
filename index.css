@@ -22,6 +22,10 @@
     margin: 1cm;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
+    /* Simulate sidebar separator line extending to bottom of every page */
+    background-image: linear-gradient(to right, transparent 30%, #d1d5db 30%, #d1d5db calc(30% + 1px), transparent calc(30% + 1px));
+    background-repeat: repeat-y;
+    background-size: 100% auto;
   }
 
   /* Hide scroll elements mostly */

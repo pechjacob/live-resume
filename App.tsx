@@ -199,8 +199,6 @@ function App() {
             </button>
 
             <div className="flex flex-col md:flex-row min-h-full print:block relative">
-              {/* Print Separator Line (Simulated for multi-page height) */}
-              <div className="hidden print:block absolute top-0 bottom-0 left-[30%] w-px bg-gray-300 z-20" />
 
               {/* Left Column: Sidebar (Profile, Skills, Edu) */}
               {/* Force white bg in print, full height */}
@@ -210,7 +208,7 @@ function App() {
 
               {/* Right Column: Experience */}
               {/* Darker background in print (gray-300) as requested */}
-              <div className="hidden md:block w-full md:w-2/3 lg:w-[70%] bg-gray-50/50 md:bg-gray-50/90 dark:bg-transparent print:w-[70%] print:float-right print:bg-gray-300 print:text-black print:block order-2" id="experience">
+              <div className="hidden md:block w-full md:w-2/3 lg:w-[70%] bg-gray-50/50 md:bg-gray-50/90 dark:bg-transparent print:w-[70%] print:float-right print:bg-gray-200 print:text-black print:block order-2" id="experience">
                 <ExperienceSection />
               </div>
             </div>
