@@ -224,7 +224,7 @@ const Sidebar: React.FC<SidebarProps> = ({ handlePrint }) => {
       {/* Clearance */}
       <div id="clearance" className="scroll-mt-16">
         <h3 className="font-bold uppercase tracking-widest mb-4 text-lg border-b-2 border-gray-200 dark:border-gray-700 pb-1">Clearance</h3>
-        <p className="text-sm leading-relaxed text-gray-700 dark:text-gray-300">
+        <p className="text-sm leading-relaxed text-gray-700 dark:text-gray-300 print:!text-black print:font-semibold">
           {clearance}
         </p>
       </div>
@@ -237,9 +237,9 @@ const Sidebar: React.FC<SidebarProps> = ({ handlePrint }) => {
             <div key={edu.id} className="relative">
               {/* Timeline Dot */}
               <span className="absolute -left-[29px] top-1.5 w-3 h-3 rounded-full bg-gray-400 dark:bg-gray-500 border-2 border-white dark:border-gray-900"></span>
-              <h4 className="font-bold text-sm">{edu.degree}</h4>
-              <p className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">{edu.school}</p>
-              <p className="text-xs text-gray-500 mt-0.5 italic">{edu.year}</p>
+              <h4 className="font-bold text-sm print:!text-black">{edu.degree}</h4>
+              <p className="text-xs text-gray-600 dark:text-gray-400 mt-0.5 print:!text-gray-800">{edu.school}</p>
+              <p className="text-xs text-gray-500 mt-0.5 italic print:!text-gray-600">{edu.year}</p>
             </div>
           ))}
         </div>
@@ -251,8 +251,8 @@ const Sidebar: React.FC<SidebarProps> = ({ handlePrint }) => {
         <div className="space-y-4">
           {certificates.map((cert) => (
             <div key={cert.id}>
-              <h4 className="font-bold text-sm">{cert.name}</h4>
-              <p className="text-xs text-gray-600 dark:text-gray-400 mt-1 leading-snug">{cert.details}</p>
+              <h4 className="font-bold text-sm print:!text-black">{cert.name}</h4>
+              <p className="text-xs text-gray-600 dark:text-gray-400 mt-1 leading-snug print:!text-gray-800">{cert.details}</p>
             </div>
           ))}
         </div>
@@ -263,7 +263,7 @@ const Sidebar: React.FC<SidebarProps> = ({ handlePrint }) => {
         <h3 className="font-bold uppercase tracking-widest mb-4 text-lg border-b-2 border-gray-200 dark:border-gray-700 pb-1">Skills</h3>
         <div className="space-y-3 text-sm">
           {skills.map((skill, idx) => (
-            <p key={idx} className="text-gray-700 dark:text-gray-300 leading-relaxed">
+            <p key={idx} className="text-gray-700 dark:text-gray-300 leading-relaxed print:!text-gray-900">
               {skill}
             </p>
           ))}
