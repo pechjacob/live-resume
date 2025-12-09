@@ -221,10 +221,8 @@ function App() {
         )}
       </div>
 
-      {/* Mobile Bottom Navigation - Fixed Bottom Bar (Collapsed) */}
-      {/* Light Mode: Dark Background (#333) with White Text - Translucent */}
-      {/* Dark Mode: White Background with Black Text - Translucent */}
-      <div className="md:hidden fixed bottom-0 left-0 w-full bg-[#333333]/85 dark:bg-white/85 backdrop-blur-md border-t border-gray-700/50 dark:border-gray-200/50 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] z-[100] h-16 flex items-center justify-between px-6 no-print transition-colors duration-300">
+      {/* Mobile Bottom Navigation - Glassmorphism Updated */}
+      <div className="md:hidden fixed bottom-0 left-0 w-full bg-black/30 dark:bg-white/30 backdrop-blur-xl border-t border-gray-700/30 dark:border-gray-200/30 shadow-[0_-4px_30px_rgba(0,0,0,0.1)] z-[100] h-16 flex items-center justify-between px-6 no-print transition-colors duration-300">
         <div className="flex items-center gap-2">
           {/* Download Button */}
           <button

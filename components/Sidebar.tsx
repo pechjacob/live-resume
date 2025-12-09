@@ -28,9 +28,15 @@ const Sidebar: React.FC<SidebarProps> = ({ handlePrint }) => {
       const rect = aboutRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
 
+      // Mobile specific override: Force reveal on mobile to prevent visibility issues
+      if (window.innerWidth < 768) {
+        setAboutProgress(1);
+        return;
+      }
+
       // Calculate progress: 0 when element enters viewport, 1 when it's fully visible/centered
       // Adjust start/end points to make the effect tighter
-      const start = windowHeight * 0.9; // Start later
+      const start = windowHeight * 0.95; // Start earlier (when it just enters)
       const end = windowHeight * 0.4;   // End earlier
 
       const progressraw = (start - rect.top) / (start - end);
@@ -40,6 +46,9 @@ const Sidebar: React.FC<SidebarProps> = ({ handlePrint }) => {
       setAboutProgress(prev => Math.max(prev, progress));
     };
 
+    window.addEventListener('scroll', handleScroll);
+    // Initial check in case the component mounts already scrolled
+    handleScroll();
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
