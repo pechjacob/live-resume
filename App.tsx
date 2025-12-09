@@ -55,11 +55,19 @@ function App() {
     setIsAutoScrolling(true);
 
     console.log('[Auto-scroll DEBUG] Creating setInterval...');
+    let scrollCount = 0;
     const intervalId = window.setInterval(() => {
+      scrollCount++;
+      const beforeScroll = window.scrollY;
       window.scrollBy({
         top: 1, // Scroll 1px at a time for smooth effect
         behavior: 'auto' // Use auto instead of smooth for precise control
       });
+      const afterScroll = window.scrollY;
+
+      if (scrollCount === 1 || scrollCount % 50 === 0) {
+        console.log(`[Auto-scroll DEBUG] Interval tick #${scrollCount}: scrollY ${beforeScroll} → ${afterScroll}, scrollHeight: ${document.documentElement.scrollHeight}, clientHeight: ${document.documentElement.clientHeight}`);
+      }
     }, 20); // Every 20ms = 50 pixels per second
 
     console.log(`[Auto-scroll DEBUG] setInterval created with ID: ${intervalId}`);
