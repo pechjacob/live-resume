@@ -60,10 +60,25 @@ function App() {
       scrollCount++;
       const beforeScroll = window.scrollY;
 
-      // iOS Safari doesn't always respond to window.scrollBy()
-      // Try scrolling via scrollTop instead
+      // Try multiple scroll methods for iOS compatibility
       const scrollElement = document.scrollingElement || document.documentElement;
+      const body = document.body;
+
+      if (scrollCount === 1) {
+        console.log(`[Auto-scroll DEBUG] Scroll element info:
+          - scrollingElement exists: ${!!document.scrollingElement}
+          - documentElement.scrollTop: ${document.documentElement.scrollTop}
+          - documentElement.scrollHeight: ${document.documentElement.scrollHeight}
+          - body.scrollTop: ${body.scrollTop}
+          - body.scrollHeight: ${body.scrollHeight}
+          - window.scrollY: ${window.scrollY}`);
+      }
+
+      // Try all methods (one should work on iOS)
       scrollElement.scrollTop += 1;
+      body.scrollTop += 1;
+      document.documentElement.scrollTop += 1;
+      window.scroll(0, window.scrollY + 1);
 
       const afterScroll = window.scrollY;
 
