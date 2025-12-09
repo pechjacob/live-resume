@@ -112,7 +112,7 @@ const Sidebar: React.FC<SidebarProps> = ({ handlePrint }) => {
 
           {/* Screen Image (Interactive) */}
           <div
-            className="print:hidden w-full h-full rounded-full overflow-hidden border-4 border-gray-100 dark:border-gray-800 shadow-xl relative z-10 cursor-pointer transition-transform duration-500 hover:scale-105"
+            className="print:hidden w-full h-full rounded-full overflow-hidden border-4 border-gray-900 dark:border-gray-100 hover:border-matrix-green hover:shadow-[0_0_20px_rgba(0,255,0,0.5)] shadow-xl relative z-10 cursor-pointer transition-all duration-300 transform hover:scale-105"
           >
             {/* Main Image (with fade transition) */}
             <img
