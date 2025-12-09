@@ -26,8 +26,8 @@ const EncryptedText: React.FC<EncryptedTextProps> = ({
         // Calculate steps based on duration and text length
         // We want to finish revealing by 'duration'.
         // Total steps ~ length of text.
-        // Interval delay = duration / text.length
-        const intervalDelay = duration / text.length;
+        // Interval delay = duration / (text.length * 2) (since we increment by 0.5)
+        const intervalDelay = duration / (text.length * 2);
 
         // Start color transition
         // detailed color interpolation is hard with tailwind classes, 
