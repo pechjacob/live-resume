@@ -31,10 +31,10 @@ function App() {
     // 1. Hide overlay (reveals resume)
     setShowStartOverlay(false);
 
-    // 2. Start scrolling after EncryptedText effect finishes (2.5s)
+    // 2. Start scrolling after EncryptedText effect finishes (2.5s) + buffer
     setTimeout(() => {
       startAutoScroll();
-    }, 2500);
+    }, 3500);
   };
 
   useEffect(() => {
