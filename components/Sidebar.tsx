@@ -29,10 +29,10 @@ const Sidebar: React.FC<SidebarProps> = ({ handlePrint }) => {
       const windowHeight = window.innerHeight;
 
       // Calculate progress: 0 when element enters viewport, 1 when it's fully visible/centered
-      // Mobil: Start detecting as soon as it enters viewport (1.0)
+      // Mobil: Start detecting when it is significantly into viewport (0.60 - 40% up)
       const isMobile = window.innerWidth < 768;
-      const start = windowHeight * (isMobile ? 1.0 : 0.95);
-      const end = windowHeight * 0.4;   // End earlier
+      const start = windowHeight * (isMobile ? 0.80 : 0.95);
+      const end = windowHeight * 0.35;   // End earlier
 
       const progressraw = (start - rect.top) / (start - end);
       const progress = Math.min(Math.max(progressraw, 0), 1);
