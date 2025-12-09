@@ -25,31 +25,21 @@ const Sidebar: React.FC<SidebarProps> = ({ handlePrint }) => {
   useEffect(() => {
     const handleScroll = () => {
       if (!aboutRef.current) return;
-
       const rect = aboutRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
-      const triggerPoint = windowHeight * 0.8; // Trigger slightly earlier/later? 0.8 seems good for bottom of sidebar
 
-      const elementHeight = rect.height;
+      // Calculate progress: 0 when element enters viewport, 1 when it's fully visible/centered
+      // Adjust start/end points to make the effect tighter
+      const start = windowHeight * 0.9; // Start later
+      const end = windowHeight * 0.4;   // End earlier
 
-      // Calculate progress: 0 when top enters trigger, 1 when bottom leaves trigger?
-      // Actually we want it to fill up as we scroll past it.
-      // Standard intersection logic:
-      const start = triggerPoint;
-      // const end = start - elementHeight; 
+      const progressraw = (start - rect.top) / (start - end);
+      const progress = Math.min(Math.max(progressraw, 0), 1);
 
-      // Progress calculation
-      // We want 0 -> 1 as the element passes through the viewport "sweet spot"
-      let progress = (start - rect.top) / (elementHeight * 0.8); // 0.8 factor to make it complete faster
-
-      progress = Math.max(0, Math.min(1, progress));
-
-      // "Once it appears it should not dissapear" -> Only update if new progress is higher
+      // Only update if progress increases (one-way reveal)
       setAboutProgress(prev => Math.max(prev, progress));
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll(); // Initial check
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);

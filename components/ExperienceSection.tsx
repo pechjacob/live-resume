@@ -153,7 +153,7 @@ const ExperienceSection: React.FC = () => {
               <ul className="space-y-3 mt-3">
                 {job.description.map((point, idx) => (
                   <li key={idx} className="text-sm leading-relaxed flex items-start">
-                    <span className={`mr-2 mt-1.5 block w-1.5 h-1.5 rounded-full flex-shrink-0 transition-colors duration-300 ${progress > 0 ? 'bg-orange-500' : 'bg-gray-300'}`}></span>
+                    <span className={`mr-2 mt-1.5 block w-1.5 h-1.5 rounded-full flex-shrink-0 transition-colors duration-300 ${progress > 0 ? 'bg-orange-500' : 'bg-gray-300'} print:bg-orange-500`}></span>
                     <p className="inline">
                       {point.split(' ').map((word, wordIdx, arr) => {
                         // Calculate global index of this word in the entire description to map to progress
@@ -181,7 +181,7 @@ const ExperienceSection: React.FC = () => {
                         return (
                           <span
                             key={wordIdx}
-                            className={`transition-colors duration-200 ${isHighlighted ? 'text-gray-900 dark:text-gray-100 font-medium' : 'text-gray-400 dark:text-gray-600'} print:text-black print:font-normal`}
+                            className={`transition-colors duration-200 ${isHighlighted ? 'text-gray-900 dark:text-gray-100 font-medium' : 'text-gray-400 dark:text-gray-600'} print:!text-black print:font-normal`}
                           >
                             {word}{wordIdx < arr.length - 1 ? ' ' : ''}
                           </span>
