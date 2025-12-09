@@ -207,7 +207,7 @@ const Sidebar: React.FC<SidebarProps> = ({ handlePrint }) => {
             return (
               <span
                 key={idx}
-                className={`transition-colors duration-500 ${isRevealed ? 'text-cyan-600 dark:text-cyan-400 font-medium drop-shadow-none dark:drop-shadow-[0_0_2px_rgba(34,211,238,0.5)]' : 'text-transparent opacity-10'} print:text-black print:opacity-100 print:drop-shadow-none print:font-normal`}
+                className={`transition-colors duration-500 ${isRevealed ? 'text-cyan-600 dark:text-cyan-400 font-medium drop-shadow-none dark:drop-shadow-[0_0_2px_rgba(34,211,238,0.5)]' : 'text-transparent opacity-10'} print:!text-black print:!opacity-100 print:!drop-shadow-none print:font-normal`}
               >
                 {word}{idx < arr.length - 1 ? ' ' : ''}
               </span>
