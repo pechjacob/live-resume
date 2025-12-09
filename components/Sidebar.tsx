@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { RESUME_DATA } from '../constants';
 import { MapPin, Mail, Phone, Linkedin, Github, Download } from 'lucide-react';
 import ExperienceSection from './ExperienceSection';
+import EncryptedText from './EncryptedText';
 
 interface SidebarProps {
   handlePrint: () => void;
@@ -78,11 +79,18 @@ const Sidebar: React.FC<SidebarProps> = ({ handlePrint }) => {
         </div>
 
         <div className="text-center md:text-left">
-          <h1 className="text-3xl font-bold underline decoration-2 underline-offset-4 mb-2 uppercase tracking-wide">
-            {personal.name}
+          <h1 className="text-3xl font-bold underline decoration-2 underline-offset-4 decoration-gray-900 dark:decoration-white mb-2 uppercase tracking-wide">
+            <span className="bg-gradient-to-r from-green-400 via-purple-500 to-orange-500 bg-clip-text text-transparent">
+              {personal.name}
+            </span>
           </h1>
-          <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300 whitespace-nowrap">
-            {personal.title}
+          <h2 className="text-sm font-semibold whitespace-nowrap">
+            <EncryptedText
+              text={personal.title}
+              initialColor="text-purple-500"
+              finalColor="text-orange-500"
+              duration={2500}
+            />
           </h2>
         </div>
 
