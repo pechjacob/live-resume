@@ -19,8 +19,24 @@ export default {
             },
             fontFamily: {
                 sans: ['Inter', 'sans-serif'],
+            },
+            animation: {
+                'bounce-slight': 'bounce-slight 2s infinite',
+                'scan': 'scan 2s linear infinite',
+            },
+            keyframes: {
+                'bounce-slight': {
+                    '0%, 100%': { transform: 'translateY(-5%)', animationTimingFunction: 'cubic-bezier(0.8, 0, 1, 1)' },
+                    '50%': { transform: 'translateY(0)', animationTimingFunction: 'cubic-bezier(0, 0, 0.2, 1)' },
+                },
+                'scan': {
+                    '0%': { backgroundPosition: '0% 0%' },
+                    '100%': { backgroundPosition: '0% 100%' },
+                }
             }
         }
     },
-    plugins: [],
+    plugins: [
+        require('tailwindcss-animate'),
+    ],
 }
