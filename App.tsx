@@ -336,9 +336,7 @@ function App() {
                   SYSTEM INITIALIZED
                 </h2>
                 <div className="h-px w-24 bg-gradient-to-r from-transparent via-matrix-green/50 to-transparent mx-auto" />
-                <p className="text-gray-400 text-sm font-light tracking-wide">
-                  Awaiting Manual Override
-                </p>
+
               </div>
 
               {/* Enhanced Button */}
