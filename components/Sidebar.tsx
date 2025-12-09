@@ -1,6 +1,6 @@
 
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { RESUME_DATA } from '../constants';
 import { MapPin, Mail, Phone, Linkedin, Github, Download } from 'lucide-react';
 import ExperienceSection from './ExperienceSection';
@@ -16,6 +16,43 @@ const Sidebar: React.FC<SidebarProps> = ({ handlePrint }) => {
   const [isPaused, setIsPaused] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
+
+  // About section scroll progress for word reveal
+  const [aboutProgress, setAboutProgress] = useState(0);
+  const aboutRef = useRef<HTMLDivElement>(null);
+
+  // Scroll listener for About section
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!aboutRef.current) return;
+
+      const rect = aboutRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      const triggerPoint = windowHeight * 0.8; // Trigger slightly earlier/later? 0.8 seems good for bottom of sidebar
+
+      const elementHeight = rect.height;
+
+      // Calculate progress: 0 when top enters trigger, 1 when bottom leaves trigger?
+      // Actually we want it to fill up as we scroll past it.
+      // Standard intersection logic:
+      const start = triggerPoint;
+      // const end = start - elementHeight; 
+
+      // Progress calculation
+      // We want 0 -> 1 as the element passes through the viewport "sweet spot"
+      let progress = (start - rect.top) / (elementHeight * 0.8); // 0.8 factor to make it complete faster
+
+      progress = Math.max(0, Math.min(1, progress));
+
+      // "Once it appears it should not dissapear" -> Only update if new progress is higher
+      setAboutProgress(prev => Math.max(prev, progress));
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Initial check
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Auto-rotate profile picture every 4 seconds (unless paused)
   useEffect(() => {
@@ -139,10 +176,24 @@ const Sidebar: React.FC<SidebarProps> = ({ handlePrint }) => {
       </div>
 
       {/* About */}
-      <div id="about" className="scroll-mt-16">
+      {/* About */}
+      <div id="about" className="scroll-mt-16" ref={aboutRef}>
         <h3 className="font-bold uppercase tracking-widest mb-4 text-lg border-b-2 border-gray-200 dark:border-gray-700 pb-1">About</h3>
-        <p className="text-sm leading-relaxed text-gray-700 dark:text-gray-300">
-          {personal.about}
+        <p className="text-sm leading-relaxed">
+          {personal.about.split(' ').map((word, idx, arr) => {
+            // Calculate threshold for this word (0 to 1)
+            const threshold = idx / arr.length;
+            const isRevealed = aboutProgress > threshold;
+
+            return (
+              <span
+                key={idx}
+                className={`transition-colors duration-500 ${isRevealed ? 'text-cyan-400 font-medium drop-shadow-[0_0_2px_rgba(34,211,238,0.5)]' : 'text-transparent opacity-10'}`}
+              >
+                {word}{idx < arr.length - 1 ? ' ' : ''}
+              </span>
+            );
+          })}
         </p>
       </div>
 
