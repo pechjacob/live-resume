@@ -50,7 +50,10 @@ function App() {
   const toggleTheme = () => setDarkMode(!darkMode);
 
   const handlePrint = () => {
+    const originalTitle = document.title;
+    document.title = "Pech, Jacob Resume";
     window.print();
+    document.title = originalTitle;
   };
 
   const scrollToSection = (id: string) => {
@@ -195,17 +198,16 @@ function App() {
               )}
             </button>
 
-            <div className="flex flex-col md:flex-row">
+            <div className="flex flex-col md:flex-row min-h-full print:block">
               {/* Left Column: Sidebar (Profile, Skills, Edu) */}
-              {/* Light mode: bg-white (Lighter) | Dark mode: bg-[#1a1a1a] (Lighter than right) */}
-              <div className="w-full md:w-1/3 lg:w-[30%] bg-white/50 md:bg-white/90 dark:bg-[#1a1a1a]/80 md:dark:bg-[#1a1a1a] border-r border-gray-200 dark:border-gray-800 print:bg-white print:border-r print:border-gray-200 order-1" id="sidebar">
+              {/* Force white bg in print, full height */}
+              <div className="w-full md:w-1/3 lg:w-[30%] bg-white/50 md:bg-white/90 dark:bg-[#1a1a1a]/80 md:dark:bg-[#1a1a1a] border-r border-gray-200 dark:border-gray-800 print:w-[30%] print:float-left print:bg-white print:border-r print:border-gray-300 print:min-h-screen order-1" id="sidebar">
                 <Sidebar handlePrint={handlePrint} />
               </div>
 
               {/* Right Column: Experience */}
-              {/* Light mode: bg-gray-50 (Slightly darker/grayer than left) | Dark mode: bg-transparent (Shows container #121212, darker than left) */}
-              {/* On mobile: order-2 to appear after sidebar (which contains About section) */}
-              <div className="hidden md:block w-full md:w-2/3 lg:w-[70%] bg-gray-50/50 md:bg-gray-50/90 dark:bg-transparent print:bg-white order-2" id="experience">
+              {/* Darker background in print (gray-100) as requested */}
+              <div className="hidden md:block w-full md:w-2/3 lg:w-[70%] bg-gray-50/50 md:bg-gray-50/90 dark:bg-transparent print:w-[70%] print:float-right print:bg-gray-100 print:text-black print:block order-2" id="experience">
                 <ExperienceSection />
               </div>
             </div>

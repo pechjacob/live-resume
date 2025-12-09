@@ -148,11 +148,11 @@ const Sidebar: React.FC<SidebarProps> = ({ handlePrint }) => {
           <MapPin size={18} />
           <span>{personal.location}</span>
         </div>
-        <a href={`mailto:${personal.email}`} className="flex items-center justify-center md:justify-start gap-2 text-gray-600 dark:text-gray-400 group hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+        <a href={`mailto:${personal.email}`} className="flex items-center justify-center md:justify-start gap-2 text-gray-600 dark:text-gray-400 group hover:text-blue-600 dark:hover:text-blue-400 transition-colors print:text-black">
           <Mail size={18} />
           <span className="group-hover:underline">{personal.email}</span>
         </a>
-        <a href={`tel:${personal.phone.replace(/\D/g, '')}`} className="flex items-center justify-center md:justify-start gap-2 text-gray-600 dark:text-gray-400 group hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+        <a href={`tel:${personal.phone.replace(/\D/g, '')}`} className="flex items-center justify-center md:justify-start gap-2 text-gray-600 dark:text-gray-400 group hover:text-blue-600 dark:hover:text-blue-400 transition-colors print:text-black">
           <Phone size={18} />
           <span>{personal.phone}</span>
         </a>
@@ -188,7 +188,7 @@ const Sidebar: React.FC<SidebarProps> = ({ handlePrint }) => {
             return (
               <span
                 key={idx}
-                className={`transition-colors duration-500 ${isRevealed ? 'text-cyan-400 font-medium drop-shadow-[0_0_2px_rgba(34,211,238,0.5)]' : 'text-transparent opacity-10'}`}
+                className={`transition-colors duration-500 ${isRevealed ? 'text-cyan-400 font-medium drop-shadow-[0_0_2px_rgba(34,211,238,0.5)]' : 'text-transparent opacity-10'} print:text-black print:opacity-100 print:drop-shadow-none print:font-normal`}
               >
                 {word}{idx < arr.length - 1 ? ' ' : ''}
               </span>

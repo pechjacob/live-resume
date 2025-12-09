@@ -181,7 +181,7 @@ const ExperienceSection: React.FC = () => {
                         return (
                           <span
                             key={wordIdx}
-                            className={`transition-colors duration-200 ${isHighlighted ? 'text-gray-900 dark:text-gray-100 font-medium' : 'text-gray-400 dark:text-gray-600'}`}
+                            className={`transition-colors duration-200 ${isHighlighted ? 'text-gray-900 dark:text-gray-100 font-medium' : 'text-gray-400 dark:text-gray-600'} print:text-black print:font-normal`}
                           >
                             {word}{wordIdx < arr.length - 1 ? ' ' : ''}
                           </span>
