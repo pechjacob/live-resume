@@ -71,23 +71,13 @@ const Sidebar: React.FC<SidebarProps> = ({ handlePrint }) => {
     return () => clearInterval(interval);
   }, [isPaused, isHovering]);
 
+  const handleMouseEnter = () => setIsHovering(true);
+  const handleMouseLeave = () => setIsHovering(false);
   const handleImageInteraction = () => {
-    // On mobile (touch), toggle pause state
-    // On desktop (mouse), just pause while hovering
-    setIsPaused(prev => !prev);
-    setIsHovering(true);
-  };
-
-  const handleMouseEnter = () => {
-    setIsHovering(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovering(false);
-    // On desktop, resume rotation when mouse leaves
-    // Check if device supports hover (desktop)
-    if (window.matchMedia('(hover: hover)').matches) {
-      setIsPaused(false);
+    if (window.innerWidth < 768) {
+      setIsPaused(!isPaused);
+    } else {
+      setShowAlternate(!showAlternate);
     }
   };
 
@@ -102,10 +92,15 @@ const Sidebar: React.FC<SidebarProps> = ({ handlePrint }) => {
   };
 
   return (
-    <div className="flex flex-col space-y-8 p-6 md:pr-8 text-center md:text-left h-full relative">
-      {/* Header Profile */}
-      <div id="home" className="flex flex-col items-center md:items-start space-y-4 pt-4 md:pt-0 scroll-mt-8">
-        <div className="relative w-48 h-48 mx-auto mb-6">
+    <div className="flex flex-col space-y-8 p-6 md:pr-8 text-center md:text-left h-full relative print:text-black">
+      {/* Profile Header */}
+      <div className="flex flex-col items-center md:items-start gap-4">
+        <div
+          className="relative w-48 h-48 md:w-56 md:h-56 mx-auto md:mx-0 group perspective-1000"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onClick={handleImageInteraction}
+        >
           {/* Print-only static human image */}
           <div className="hidden print:block w-full h-full rounded-full overflow-hidden border-4 border-gray-300 shadow-lg relative z-20">
             <img
@@ -115,12 +110,9 @@ const Sidebar: React.FC<SidebarProps> = ({ handlePrint }) => {
             />
           </div>
 
-          {/* Screen-only interactive image */}
+          {/* Screen Image (Interactive) */}
           <div
-            className="print:hidden w-full h-full rounded-full overflow-hidden border-4 border-matrix-green shadow-[0_0_20px_rgba(0,255,0,0.3)] relative z-10 cursor-pointer transition-transform duration-500 hover:scale-105"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            onClick={handleImageInteraction}
+            className="print:hidden w-full h-full rounded-full overflow-hidden border-4 border-gray-100 dark:border-gray-800 shadow-xl relative z-10 cursor-pointer transition-transform duration-500 hover:scale-105"
           >
             {/* Main Image (with fade transition) */}
             <img
