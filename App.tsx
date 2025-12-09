@@ -17,6 +17,23 @@ function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isAutoScrolling, setIsAutoScrolling] = useState(false);
   const autoScrollIntervalRef = useRef<number | null>(null);
+  const [showStartOverlay, setShowStartOverlay] = useState(false);
+
+  // Check if mobile and show overlay
+  useEffect(() => {
+    const isMobile = window.innerWidth < 768;
+    if (isMobile) {
+      setShowStartOverlay(true);
+    }
+  }, []);
+
+  const handleStartExperience = () => {
+    setShowStartOverlay(false);
+    // Start auto-scroll after user gesture (iOS requirement)
+    setTimeout(() => {
+      startAutoScroll();
+    }, 500);
+  };
 
   useEffect(() => {
     if (darkMode) {
@@ -107,30 +124,7 @@ function App() {
     }
   };
 
-  // Auto-start scroll on mobile after 2-3 seconds
-  useEffect(() => {
-    const isMobile = window.innerWidth < 768;
-    console.log(`[Auto-scroll DEBUG] Window width: ${window.innerWidth}, isMobile: ${isMobile}`);
-    console.log(`[Auto-scroll DEBUG] User agent: ${navigator.userAgent}`);
 
-    if (!isMobile) {
-      console.log('[Auto-scroll DEBUG] Not mobile, skipping auto-scroll');
-      return;
-    }
-
-    console.log('[Auto-scroll] Mobile detected, starting auto-scroll in 2.5s...');
-    const timer = setTimeout(() => {
-      console.log('[Auto-scroll] Triggering auto-scroll now');
-      console.log(`[Auto-scroll DEBUG] isAutoScrolling before start: ${isAutoScrolling}`);
-      startAutoScroll();
-      console.log(`[Auto-scroll DEBUG] startAutoScroll() called`);
-    }, 2500); // 2.5 seconds
-
-    return () => {
-      console.log('[Auto-scroll DEBUG] Cleanup: clearing timer');
-      clearTimeout(timer);
-    };
-  }, []); // Empty deps array is safe with useRef
 
   // Stop auto-scroll on user touch/interaction
   useEffect(() => {
@@ -321,12 +315,45 @@ function App() {
         </div>
       )}
 
-      {/* Click outside to close menu overlay */}
       {isMobileMenuOpen && (
         <div
           className="fixed inset-0 bg-black/20 backdrop-blur-[1px] z-[80] md:hidden no-print"
           onClick={() => setIsMobileMenuOpen(false)}
         />
+      )}
+
+      {/* Tap-to-Start Overlay (iOS Unlock) */}
+      {showStartOverlay && (
+        <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/95 backdrop-blur-md px-4 no-print animate-in fade-in duration-500">
+          <div className="max-w-md w-full bg-[#121212] border border-matrix-green/50 shadow-[0_0_30px_rgba(0,255,0,0.15)] rounded-lg p-8 text-center relative overflow-hidden">
+            {/* Decorative Matrix Scanline */}
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-matrix-green/5 to-transparent pointer-events-none animate-scan" style={{ backgroundSize: '100% 4px' }} />
+
+            <div className="relative z-10 flex flex-col items-center gap-6">
+              <div className="p-4 rounded-full bg-matrix-green/10 mb-2 ring-1 ring-matrix-green/30 animate-pulse">
+                <Play size={32} className="text-matrix-green fill-current" />
+              </div>
+
+              <div className="space-y-2">
+                <h2 className="text-xl font-bold text-white tracking-widest font-mono">SYSTEM INITIALIZED</h2>
+                <p className="text-gray-400 text-sm">Interactive resume loaded successfully.</p>
+              </div>
+
+              <button
+                onClick={handleStartExperience}
+                className="group relative w-full py-4 px-6 bg-matrix-green text-black font-bold text-sm tracking-widest uppercase rounded overflow-hidden transition-all hover:bg-green-400 hover:shadow-[0_0_20px_rgba(0,255,0,0.4)] active:scale-95"
+              >
+                <span className="relative z-10 flex items-center justify-center gap-2">
+                  Launch Experience <span className="animate-pulse">_</span>
+                </span>
+              </button>
+
+              <p className="text-[10px] text-gray-400 uppercase tracking-wide">
+                Secure Connection Established
+              </p>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Desktop Quick Actions (Optional) */}
