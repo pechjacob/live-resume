@@ -28,15 +28,10 @@ const Sidebar: React.FC<SidebarProps> = ({ handlePrint }) => {
       const rect = aboutRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
 
-      // Mobile specific override: Force reveal on mobile to prevent visibility issues
-      if (window.innerWidth < 768) {
-        setAboutProgress(1);
-        return;
-      }
-
       // Calculate progress: 0 when element enters viewport, 1 when it's fully visible/centered
-      // Adjust start/end points to make the effect tighter
-      const start = windowHeight * 0.95; // Start earlier (when it just enters)
+      // Mobil: Start detecting as soon as it enters viewport (1.0)
+      const isMobile = window.innerWidth < 768;
+      const start = windowHeight * (isMobile ? 1.0 : 0.95);
       const end = windowHeight * 0.4;   // End earlier
 
       const progressraw = (start - rect.top) / (start - end);
@@ -220,7 +215,7 @@ const Sidebar: React.FC<SidebarProps> = ({ handlePrint }) => {
             return (
               <span
                 key={idx}
-                className={`transition-colors duration-500 ${isRevealed ? 'text-cyan-400 font-medium drop-shadow-[0_0_2px_rgba(34,211,238,0.5)]' : 'text-transparent opacity-10'} print:text-black print:opacity-100 print:drop-shadow-none print:font-normal`}
+                className={`transition-colors duration-500 ${isRevealed ? 'text-cyan-600 dark:text-cyan-400 font-medium drop-shadow-none dark:drop-shadow-[0_0_2px_rgba(34,211,238,0.5)]' : 'text-transparent opacity-10'} print:text-black print:opacity-100 print:drop-shadow-none print:font-normal`}
               >
                 {word}{idx < arr.length - 1 ? ' ' : ''}
               </span>
