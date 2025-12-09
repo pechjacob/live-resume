@@ -362,14 +362,12 @@ function App() {
             </div>
           </div>
         </div>
-      </div>
-  )
-}
+      )}
 
-{/* Desktop Quick Actions (Optional) */ }
-<div className="fixed bottom-8 right-8 z-50 hidden md:block no-print">
-  {/* Placeholder for additional tool menu if needed */}
-</div>
+      {/* Desktop Quick Actions (Optional) */}
+      <div className="fixed bottom-8 right-8 z-50 hidden md:block no-print">
+        {/* Placeholder for additional tool menu if needed */}
+      </div>
 
     </div >
   );
