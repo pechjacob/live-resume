@@ -60,51 +60,40 @@ function App() {
     }
   };
 
+  // Auto-scroll logic with scroll-behavior fix
   const startAutoScroll = () => {
     console.log(`[Auto-scroll DEBUG] startAutoScroll called. Current intervalRef: ${autoScrollIntervalRef.current}`);
 
     if (autoScrollIntervalRef.current) {
-      console.log('[Auto-scroll DEBUG] Already scrolling, returning early');
-      return; // Already scrolling
+      return;
     }
+
+    // CRITICAL FIX: Disable smooth scrolling on HTML element during auto-scroll
+    // iOS fights between CSS smooth scroll and JS scroll updates
+    document.documentElement.style.scrollBehavior = 'auto';
+    document.body.style.scrollBehavior = 'auto';
 
     console.log('[Auto-scroll DEBUG] Setting isAutoScrolling to true');
     setIsAutoScrolling(true);
 
+    // Resume is now visible, give it a moment to layout then start scrolling
     console.log('[Auto-scroll DEBUG] Creating setInterval...');
     let scrollCount = 0;
+
     const intervalId = window.setInterval(() => {
       scrollCount++;
       const beforeScroll = window.scrollY;
 
-      // Try multiple scroll methods for iOS compatibility
-      const scrollElement = document.scrollingElement || document.documentElement;
-      const body = document.body;
-
-      if (scrollCount === 1) {
-        console.log(`[Auto-scroll DEBUG] Scroll element info:
-          - scrollingElement exists: ${!!document.scrollingElement}
-          - documentElement.scrollTop: ${document.documentElement.scrollTop}
-          - documentElement.scrollHeight: ${document.documentElement.scrollHeight}
-          - body.scrollTop: ${body.scrollTop}
-          - body.scrollHeight: ${body.scrollHeight}
-          - window.scrollY: ${window.scrollY}`);
-      }
-
-      // Try all methods (one should work on iOS)
-      scrollElement.scrollTop += 1;
-      body.scrollTop += 1;
-      document.documentElement.scrollTop += 1;
-      window.scroll(0, window.scrollY + 1);
+      // Try specific iOS scroll fix: window.scrollTo
+      window.scrollTo(0, window.scrollY + 1);
 
       const afterScroll = window.scrollY;
 
-      if (scrollCount === 1 || scrollCount % 50 === 0) {
-        console.log(`[Auto-scroll DEBUG] Interval tick #${scrollCount}: scrollY ${beforeScroll} → ${afterScroll}, scrollHeight: ${document.documentElement.scrollHeight}, clientHeight: ${document.documentElement.clientHeight}`);
+      if (scrollCount % 50 === 0) {
+        console.log(`[Auto-scroll DEBUG] Tick #${scrollCount}: ${beforeScroll} -> ${afterScroll}`);
       }
-    }, 20); // Every 20ms = 50 pixels per second
+    }, 20);
 
-    console.log(`[Auto-scroll DEBUG] setInterval created with ID: ${intervalId}`);
     autoScrollIntervalRef.current = intervalId;
   };
 
@@ -113,6 +102,9 @@ function App() {
       clearInterval(autoScrollIntervalRef.current);
       autoScrollIntervalRef.current = null;
     }
+    // Restore smooth scrolling for user
+    document.documentElement.style.scrollBehavior = 'smooth';
+    document.body.style.scrollBehavior = 'smooth';
     setIsAutoScrolling(false);
   };
 
@@ -184,38 +176,40 @@ function App() {
       {/* In screen mode: centered container with shadow. In print mode: simple full width div. */}
       <div className="relative z-10 min-h-screen p-0 md:p-8 lg:p-12 flex justify-center items-start print:p-0">
 
-        {/* The "Paper" - Resume Card */}
-        <div className="resume-container w-full max-w-6xl bg-white/40 md:bg-white/85 dark:bg-[#121212]/60 md:dark:bg-[#121212]/90 backdrop-blur-sm shadow-2xl rounded-none md:rounded-lg overflow-hidden transition-colors duration-300 border border-transparent dark:border-gray-800 print:border-none print:shadow-none print:rounded-none print:bg-white print:text-black pb-16 md:pb-0">
+        {/* The "Paper" - Resume Card - HIDDEN WHEN OVERLAY IS ACTIVE */}
+        {!showStartOverlay && (
+          <div className="resume-container w-full max-w-6xl bg-white/40 md:bg-white/85 dark:bg-[#121212]/60 md:dark:bg-[#121212]/90 backdrop-blur-sm shadow-2xl rounded-none md:rounded-lg overflow-hidden transition-colors duration-300 border border-transparent dark:border-gray-800 print:border-none print:shadow-none print:rounded-none print:bg-white print:text-black pb-16 md:pb-0 animate-in fade-in zoom-in-95 duration-700">
 
-          {/* Desktop Theme Toggle - Absolute Top Right - Hidden in Print */}
-          <button
-            onClick={toggleTheme}
-            className="hidden md:block absolute top-4 right-4 p-2 rounded-full bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors z-50 no-print"
-            aria-label="Toggle Theme"
-          >
-            {darkMode ? (
-              <Sun size={20} className="text-matrix-green" />
-            ) : (
-              <Moon size={20} className="text-green-700" />
-            )}
-          </button>
+            {/* Desktop Theme Toggle - Absolute Top Right - Hidden in Print */}
+            <button
+              onClick={toggleTheme}
+              className="hidden md:block absolute top-4 right-4 p-2 rounded-full bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors z-50 no-print"
+              aria-label="Toggle Theme"
+            >
+              {darkMode ? (
+                <Sun size={20} className="text-matrix-green" />
+              ) : (
+                <Moon size={20} className="text-green-700" />
+              )}
+            </button>
 
-          <div className="flex flex-col md:flex-row">
-            {/* Left Column: Sidebar (Profile, Skills, Edu) */}
-            {/* Light mode: bg-white (Lighter) | Dark mode: bg-[#1a1a1a] (Lighter than right) */}
-            <div className="w-full md:w-1/3 lg:w-[30%] bg-white/50 md:bg-white/90 dark:bg-[#1a1a1a]/80 md:dark:bg-[#1a1a1a] border-r border-gray-200 dark:border-gray-800 print:bg-white print:border-r print:border-gray-200 order-1" id="sidebar">
-              <Sidebar handlePrint={handlePrint} />
+            <div className="flex flex-col md:flex-row">
+              {/* Left Column: Sidebar (Profile, Skills, Edu) */}
+              {/* Light mode: bg-white (Lighter) | Dark mode: bg-[#1a1a1a] (Lighter than right) */}
+              <div className="w-full md:w-1/3 lg:w-[30%] bg-white/50 md:bg-white/90 dark:bg-[#1a1a1a]/80 md:dark:bg-[#1a1a1a] border-r border-gray-200 dark:border-gray-800 print:bg-white print:border-r print:border-gray-200 order-1" id="sidebar">
+                <Sidebar handlePrint={handlePrint} />
+              </div>
+
+              {/* Right Column: Experience */}
+              {/* Light mode: bg-gray-50 (Slightly darker/grayer than left) | Dark mode: bg-transparent (Shows container #121212, darker than left) */}
+              {/* On mobile: order-2 to appear after sidebar (which contains About section) */}
+              <div className="hidden md:block w-full md:w-2/3 lg:w-[70%] bg-gray-50/50 md:bg-gray-50/90 dark:bg-transparent print:bg-white order-2" id="experience">
+                <ExperienceSection />
+              </div>
             </div>
 
-            {/* Right Column: Experience */}
-            {/* Light mode: bg-gray-50 (Slightly darker/grayer than left) | Dark mode: bg-transparent (Shows container #121212, darker than left) */}
-            {/* On mobile: order-2 to appear after sidebar (which contains About section) */}
-            <div className="hidden md:block w-full md:w-2/3 lg:w-[70%] bg-gray-50/50 md:bg-gray-50/90 dark:bg-transparent print:bg-white order-2" id="experience">
-              <ExperienceSection />
-            </div>
           </div>
-
-        </div>
+        )}
       </div>
 
       {/* Mobile Bottom Navigation - Fixed Bottom Bar (Collapsed) */}
@@ -322,35 +316,42 @@ function App() {
         />
       )}
 
-      {/* Tap-to-Start Overlay (iOS Unlock) */}
+      {/* Tap-to-Start Overlay (iOS Unlock) - VIGNETTE STYLE */}
       {showStartOverlay && (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/95 backdrop-blur-md px-4 no-print animate-in fade-in duration-500">
-          <div className="max-w-md w-full bg-[#121212] border border-matrix-green/50 shadow-[0_0_30px_rgba(0,255,0,0.15)] rounded-lg p-8 text-center relative overflow-hidden">
-            {/* Decorative Matrix Scanline */}
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-matrix-green/5 to-transparent pointer-events-none animate-scan" style={{ backgroundSize: '100% 4px' }} />
+        <div className="fixed inset-0 z-[200] flex items-center justify-center no-print animate-in fade-in duration-500">
+          {/* Vignette Background: Transparent center, Dark edges */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.8)_60%,rgba(0,0,0,0.95)_100%)]" />
 
-            <div className="relative z-10 flex flex-col items-center gap-6">
-              <div className="p-4 rounded-full bg-matrix-green/10 mb-2 ring-1 ring-matrix-green/30 animate-pulse">
-                <Play size={32} className="text-matrix-green fill-current" />
+          <div className="max-w-md w-full p-8 text-center relative z-10">
+            <div className="flex flex-col items-center gap-8">
+              {/* Floating/Bouncing Icon */}
+              <div className="p-6 rounded-full bg-matrix-green/5 ring-1 ring-matrix-green/20 animate-bounce-slight backdrop-blur-sm">
+                <Play size={40} className="text-matrix-green fill-current drop-shadow-[0_0_10px_rgba(0,255,0,0.5)]" />
               </div>
 
-              <div className="space-y-2">
-                <h2 className="text-xl font-bold text-white tracking-widest font-mono">SYSTEM INITIALIZED</h2>
-                <p className="text-gray-400 text-sm">Interactive resume loaded successfully.</p>
+              <div className="space-y-3">
+                <h2 className="text-2xl font-bold text-white tracking-[0.2em] font-mono drop-shadow-md">
+                  SYSTEM INITIALIZED
+                </h2>
+                <div className="h-px w-24 bg-gradient-to-r from-transparent via-matrix-green/50 to-transparent mx-auto" />
+                <p className="text-gray-400 text-sm font-light tracking-wide">
+                  Awaiting Manual Override
+                </p>
               </div>
 
+              {/* Enhanced Button */}
               <button
                 onClick={handleStartExperience}
-                className="group relative w-full py-4 px-6 bg-matrix-green text-black font-bold text-sm tracking-widest uppercase rounded overflow-hidden transition-all hover:bg-green-400 hover:shadow-[0_0_20px_rgba(0,255,0,0.4)] active:scale-95"
+                className="group relative py-4 px-10 bg-transparent overflow-hidden rounded-sm transition-all hover:scale-105 active:scale-95"
               >
-                <span className="relative z-10 flex items-center justify-center gap-2">
+                {/* Button Background/Border Glow */}
+                <div className="absolute inset-0 border border-matrix-green/80 bg-matrix-green/10 shadow-[0_0_20px_rgba(0,255,0,0.2)] group-hover:bg-matrix-green/20 group-hover:shadow-[0_0_30px_rgba(0,255,0,0.4)] transition-all duration-300" />
+
+                {/* Button Text */}
+                <span className="relative z-10 flex items-center justify-center gap-3 text-matrix-green font-bold text-sm tracking-widest uppercase group-hover:text-white transition-colors">
                   Launch Experience <span className="animate-pulse">_</span>
                 </span>
               </button>
-
-              <p className="text-[10px] text-gray-400 uppercase tracking-wide">
-                Secure Connection Established
-              </p>
             </div>
           </div>
         </div>
