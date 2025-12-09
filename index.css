@@ -2,6 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .text-matrix-green {
+    color: #00FF41;
+  }
+
+  .bg-matrix-green {
+    background-color: #00FF41;
+  }
+}
+
+@media print {
+  @page {
+    margin: 0;
+    size: auto;
+  }
+
+  body {
+    margin: 1cm;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide scroll elements mostly */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Ensure overrides */
+  * {
+    scroll-behavior: auto !important;
+  }
+}
+
 /* Custom scrollbar for better aesthetics */
 ::-webkit-scrollbar {
   width: 8px;

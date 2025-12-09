@@ -198,7 +198,10 @@ function App() {
               )}
             </button>
 
-            <div className="flex flex-col md:flex-row min-h-full print:block">
+            <div className="flex flex-col md:flex-row min-h-full print:block relative">
+              {/* Print Separator Line (Simulated for multi-page height) */}
+              <div className="hidden print:block absolute top-0 bottom-0 left-[30%] w-px bg-gray-300 z-20" />
+
               {/* Left Column: Sidebar (Profile, Skills, Edu) */}
               {/* Force white bg in print, full height */}
               <div className="w-full md:w-1/3 lg:w-[30%] bg-white/50 md:bg-white/90 dark:bg-[#1a1a1a]/80 md:dark:bg-[#1a1a1a] border-r border-gray-200 dark:border-gray-800 print:w-[30%] print:float-left print:bg-white print:border-r print:border-gray-300 print:min-h-screen order-1" id="sidebar">
