@@ -97,7 +97,7 @@ const ExperienceSection: React.FC = () => {
         <h2 className="text-2xl font-bold uppercase tracking-[0.2em]">Experience</h2>
       </div>
 
-      <div className="space-y-24 pb-32"> {/* Increased spacing for better scroll isolation */}
+      <div className="space-y-12 pb-32"> {/* Reduced spacing from 24 to 12 */}
         {experience.filter(job => !job.hidden).map((job) => {
           const progress = scrollProgress[job.id] || 0;
 
