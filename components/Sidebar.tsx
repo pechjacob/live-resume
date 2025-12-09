@@ -103,14 +103,14 @@ const Sidebar: React.FC<SidebarProps> = ({ handlePrint }) => {
           <MapPin size={18} />
           <span>{personal.location}</span>
         </div>
-        <div className="flex items-center justify-center md:justify-start gap-2 text-gray-600 dark:text-gray-400">
+        <a href={`mailto:${personal.email}`} className="flex items-center justify-center md:justify-start gap-2 text-gray-600 dark:text-gray-400 group hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
           <Mail size={18} />
-          <a href={`mailto:${personal.email}`} className="hover:underline">{personal.email}</a>
-        </div>
-        <div className="flex items-center justify-center md:justify-start gap-2 text-gray-600 dark:text-gray-400">
+          <span className="group-hover:underline">{personal.email}</span>
+        </a>
+        <a href={`tel:${personal.phone.replace(/\D/g, '')}`} className="flex items-center justify-center md:justify-start gap-2 text-gray-600 dark:text-gray-400 group hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
           <Phone size={18} />
           <span>{personal.phone}</span>
-        </div>
+        </a>
       </div>
 
       <div className="flex flex-col space-y-2 items-center md:items-start">
