@@ -59,10 +59,12 @@ function App() {
     const intervalId = window.setInterval(() => {
       scrollCount++;
       const beforeScroll = window.scrollY;
-      window.scrollBy({
-        top: 1, // Scroll 1px at a time for smooth effect
-        behavior: 'auto' // Use auto instead of smooth for precise control
-      });
+
+      // iOS Safari doesn't always respond to window.scrollBy()
+      // Try scrolling via scrollTop instead
+      const scrollElement = document.scrollingElement || document.documentElement;
+      scrollElement.scrollTop += 1;
+
       const afterScroll = window.scrollY;
 
       if (scrollCount === 1 || scrollCount % 50 === 0) {
