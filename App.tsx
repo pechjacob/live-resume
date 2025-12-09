@@ -209,8 +209,8 @@ function App() {
               </div>
 
               {/* Right Column: Experience */}
-              {/* Darker background in print (gray-200) as requested */}
-              <div className="hidden md:block w-full md:w-2/3 lg:w-[70%] bg-gray-50/50 md:bg-gray-50/90 dark:bg-transparent print:w-[70%] print:float-right print:bg-gray-200 print:text-black print:block order-2" id="experience">
+              {/* Darker background in print (gray-300) as requested */}
+              <div className="hidden md:block w-full md:w-2/3 lg:w-[70%] bg-gray-50/50 md:bg-gray-50/90 dark:bg-transparent print:w-[70%] print:float-right print:bg-gray-300 print:text-black print:block order-2" id="experience">
                 <ExperienceSection />
               </div>
             </div>

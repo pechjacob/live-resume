@@ -97,24 +97,50 @@ const Sidebar: React.FC<SidebarProps> = ({ handlePrint }) => {
     }
   };
 
+  const getDisplayImage = () => {
+    if ((isHovering || isPaused) && personal.avatarHoverUrl) {
+      return personal.avatarHoverUrl;
+    }
+    if (showAlternate && personal.avatarHoverUrl) {
+      return personal.avatarHoverUrl;
+    }
+    return personal.avatarUrl;
+  };
+
   return (
     <div className="flex flex-col space-y-8 p-6 md:pr-8 text-center md:text-left h-full relative">
       {/* Header Profile */}
       <div id="home" className="flex flex-col items-center md:items-start space-y-4 pt-4 md:pt-0 scroll-mt-8">
-        <div
-          className="relative w-40 h-40 overflow-hidden rounded-full border-4 border-gray-200 dark:border-gray-700 shadow-lg transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.8)] dark:hover:shadow-[0_0_20px_rgba(255,255,255,0.8)] hover:border-gray-900 dark:hover:border-white cursor-pointer"
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          onClick={handleImageInteraction}
-        >
-          <img
-            src={(isHovering || isPaused) && personal.avatarHoverUrl ? personal.avatarHoverUrl : showAlternate && personal.avatarHoverUrl ? personal.avatarHoverUrl : personal.avatarUrl}
-            alt={personal.name}
-            className={`w-full h-full object-cover transform hover:scale-105 transition-all duration-500 ease-in-out ${isTransitioning ? 'opacity-0 blur-md' : 'opacity-100 blur-0'
-              }`}
-          />
-        </div>
+        <div className="relative w-48 h-48 mx-auto mb-6">
+          {/* Print-only static human image */}
+          <div className="hidden print:block w-full h-full rounded-full overflow-hidden border-4 border-gray-300 shadow-lg relative z-20">
+            <img
+              src={personal.profileImage}
+              alt={personal.name}
+              className="w-full h-full object-cover"
+            />
+          </div>
 
+          {/* Screen-only interactive image */}
+          <div
+            className="print:hidden w-full h-full rounded-full overflow-hidden border-4 border-matrix-green shadow-[0_0_20px_rgba(0,255,0,0.3)] relative z-10 cursor-pointer transition-transform duration-500 hover:scale-105"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            onClick={handleImageInteraction}
+          >
+            {/* Main Image (with fade transition) */}
+            <img
+              src={getDisplayImage()}
+              alt={personal.name}
+              className={`w-full h-full object-cover transition-all duration-700 ${isTransitioning ? 'blur-md opacity-80 scale-110' : 'blur-0 opacity-100 scale-100'}`}
+            />
+
+            {/* Pause Indicator overlay */}
+            {isPaused && (
+              <div className="absolute top-2 right-2 w-3 h-3 bg-red-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(255,0,0,0.8)]" />
+            )}
+          </div>
+        </div>
         <div className="text-center md:text-left">
           <h1 className="text-3xl font-bold underline decoration-2 underline-offset-4 decoration-gray-900 dark:decoration-white mb-2 uppercase tracking-wide">
             <span className="bg-gradient-to-r from-green-400 via-purple-500 to-orange-500 bg-clip-text text-transparent">
@@ -122,12 +148,19 @@ const Sidebar: React.FC<SidebarProps> = ({ handlePrint }) => {
             </span>
           </h1>
           <h2 className="text-sm font-semibold whitespace-nowrap">
-            <EncryptedText
-              text={personal.title}
-              initialColor="text-purple-500"
-              finalColor="text-orange-500"
-              duration={2500}
-            />
+            {/* Screen: Encrypted Effect */}
+            <span className="print:hidden">
+              <EncryptedText
+                text={personal.title}
+                initialColor="text-purple-500"
+                finalColor="text-orange-500"
+                duration={2500}
+              />
+            </span>
+            {/* Print: Static Text */}
+            <span className="hidden print:block text-black">
+              {personal.title}
+            </span>
           </h2>
         </div>
 
