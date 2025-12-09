@@ -23,6 +23,7 @@ export default {
             animation: {
                 'bounce-slight': 'bounce-slight 2s infinite',
                 'scan': 'scan 2s linear infinite',
+                'cursor-blink': 'cursor-blink 1s step-end infinite',
             },
             keyframes: {
                 'bounce-slight': {
@@ -32,6 +33,10 @@ export default {
                 'scan': {
                     '0%': { backgroundPosition: '0% 0%' },
                     '100%': { backgroundPosition: '0% 100%' },
+                },
+                'cursor-blink': {
+                    '0%, 100%': { opacity: '1' },
+                    '50%': { opacity: '0' },
                 }
             }
         }

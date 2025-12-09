@@ -215,9 +215,9 @@ function App() {
       </div>
 
       {/* Mobile Bottom Navigation - Fixed Bottom Bar (Collapsed) */}
-      {/* Light Mode: Dark Background (#333) with White Text */}
-      {/* Dark Mode: White Background with Black Text */}
-      <div className="md:hidden fixed bottom-0 left-0 w-full bg-[#333333] dark:bg-white border-t border-gray-700 dark:border-gray-200 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] z-[100] h-16 flex items-center justify-between px-6 no-print transition-colors duration-300">
+      {/* Light Mode: Dark Background (#333) with White Text - Translucent */}
+      {/* Dark Mode: White Background with Black Text - Translucent */}
+      <div className="md:hidden fixed bottom-0 left-0 w-full bg-[#333333]/85 dark:bg-white/85 backdrop-blur-md border-t border-gray-700/50 dark:border-gray-200/50 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] z-[100] h-16 flex items-center justify-between px-6 no-print transition-colors duration-300">
         <div className="flex items-center gap-2">
           {/* Download Button */}
           <button
@@ -355,7 +355,7 @@ function App() {
                   <span className="flex items-center gap-1 ml-2 normal-case">
                     <span className="text-blue-400">~</span>
                     <span className="text-white">$</span>
-                    <span className="w-2.5 h-5 bg-white animate-pulse inline-block align-middle" />
+                    <span className="w-2.5 h-5 bg-white animate-cursor-blink inline-block align-middle" />
                   </span>
                 </span>
               </button>
