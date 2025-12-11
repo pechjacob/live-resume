@@ -195,17 +195,7 @@ function App() {
           <div className="resume-container w-full max-w-6xl bg-white/40 md:bg-white/85 dark:bg-[#121212]/60 md:dark:bg-[#121212]/90 backdrop-blur-sm shadow-2xl rounded-none md:rounded-lg overflow-hidden transition-colors duration-300 border border-transparent dark:border-gray-800 print:border-none print:shadow-none print:rounded-none print:bg-white print:text-black pb-16 md:pb-0 animate-in fade-in zoom-in-95 duration-700">
 
             {/* Desktop Theme Toggle - Absolute Top Right - Hidden in Print */}
-            <button
-              onClick={toggleTheme}
-              className="hidden md:block absolute top-4 right-4 p-2 rounded-full bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors z-50 no-print"
-              aria-label="Toggle Theme"
-            >
-              {darkMode ? (
-                <Sun size={20} className="text-matrix-green" />
-              ) : (
-                <Moon size={20} className="text-green-700" />
-              )}
-            </button>
+
 
             <div className="flex flex-col md:flex-row min-h-full print:block relative">
 
@@ -376,19 +366,42 @@ function App() {
         </div>
       )}
 
-      {/* Desktop Floating Badge - Glass Style */}
-      <div className="hidden md:flex fixed bottom-12 right-0 z-50 items-center justify-center w-96 pl-10 pr-10 py-4 bg-black/30 dark:bg-white/30 backdrop-blur-xl border-l border-t border-b border-gray-200/20 shadow-2xl rounded-l-full no-print">
+      {/* Desktop Floating Badge - Glass Style - Integrated Controls */}
+      <div className="hidden md:flex fixed bottom-12 right-0 z-50 items-center justify-center w-auto min-w-[380px] pl-10 pr-10 py-4 bg-black/30 dark:bg-white/30 backdrop-blur-xl border-l border-t border-b border-gray-200/20 shadow-2xl rounded-l-full no-print">
         <div className="flex items-center gap-6">
+          {/* Download */}
+          <button
+            onClick={handlePrint}
+            className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-gray-200 dark:text-gray-800 transition-colors"
+            title="Download Resume"
+            aria-label="Download Resume"
+          >
+            <Download size={24} />
+          </button>
+
+          {/* Play/Pause */}
           <button
             onClick={toggleAutoScroll}
-            className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-gray-200 dark:text-gray-800 transition-colors"
+            className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
             title={isAutoScrolling ? "Pause Auto-Scroll" : "Resume Auto-Scroll"}
           >
-            {isAutoScrolling ? <Pause size={24} /> : <Play size={24} />}
+            {isAutoScrolling ? <Pause size={24} className="text-red-500" /> : <Play size={24} className="text-green-500" />}
           </button>
-          <span className="font-bold text-xl tracking-widest text-shadow-sm text-gray-200 dark:text-gray-800 uppercase font-mono">
+
+          {/* Text */}
+          <span className="font-bold text-xl tracking-widest text-shadow-sm text-gray-200 dark:text-gray-800 uppercase font-mono whitespace-nowrap">
             LIVE RESUME
           </span>
+
+          {/* Theme Toggle */}
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+            title="Toggle Theme"
+            aria-label="Toggle Theme"
+          >
+            {darkMode ? <Sun size={24} className="text-matrix-green" /> : <Moon size={24} className="text-gray-200 dark:text-gray-800" />}
+          </button>
         </div>
       </div>
 
