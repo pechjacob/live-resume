@@ -367,6 +367,13 @@ function App() {
         </div>
       )}
 
+      {/* Desktop Floating Badge - Glass Style */}
+      <div className="hidden md:flex fixed bottom-12 right-0 z-50 items-center justify-center pl-6 pr-8 py-3 bg-black/30 dark:bg-white/30 backdrop-blur-xl border-l border-t border-b border-gray-200/20 shadow-2xl rounded-l-full no-print">
+        <span className="font-bold text-lg tracking-widest text-shadow-sm text-gray-200 dark:text-gray-800 uppercase font-mono">
+          LIVE RESUME
+        </span>
+      </div>
+
       {/* Desktop Quick Actions (Optional) */}
       <div className="fixed bottom-8 right-8 z-50 hidden md:block no-print">
         {/* Placeholder for additional tool menu if needed */}
