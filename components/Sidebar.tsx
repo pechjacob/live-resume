@@ -154,8 +154,8 @@ const Sidebar: React.FC<SidebarProps> = ({ handlePrint }) => {
           type="button"
           onClick={handlePrint}
           className="hidden md:flex mt-4 border-2 border-gray-900 dark:border-white w-40 py-2 text-lg font-medium hover:bg-gray-900 hover:text-white dark:hover:bg-white dark:hover:text-gray-900 transition-colors duration-300 rounded-sm items-center justify-center gap-2 no-print"
-          aria-label="Download Resume (Print to PDF)"
-          title="Print to PDF"
+          aria-label="Download Resume"
+          title="Download Resume"
         >
           <Download size={20} />
         </button>
