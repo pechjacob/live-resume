@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Moon, Sun, Home, User, GraduationCap, Briefcase, FileText, Award, LayoutGrid, Medal, Download, Shield, Globe, Play, Pause } from 'lucide-react';
+import QRCode from 'react-qr-code';
 import MatrixBackground from './components/MatrixBackground';
 import Sidebar from './components/Sidebar';
 import ExperienceSection from './components/ExperienceSection';
@@ -192,7 +193,20 @@ function App() {
 
         {/* The "Paper" - Resume Card - HIDDEN WHEN OVERLAY IS ACTIVE */}
         {!showStartOverlay && (
-          <div className="resume-container w-full max-w-6xl bg-white/40 md:bg-white/85 dark:bg-[#121212]/60 md:dark:bg-[#121212]/90 backdrop-blur-sm shadow-2xl rounded-none md:rounded-lg overflow-hidden transition-colors duration-300 border border-transparent dark:border-gray-800 print:border-none print:shadow-none print:rounded-none print:bg-white print:text-black pb-16 md:pb-0 animate-in fade-in zoom-in-95 duration-700">
+          <div className="resume-container w-full max-w-6xl bg-white/40 md:bg-white/85 dark:bg-[#121212]/60 md:dark:bg-[#121212]/90 backdrop-blur-sm shadow-2xl rounded-none md:rounded-lg overflow-hidden transition-colors duration-300 border border-transparent dark:border-gray-800 print:border-none print:shadow-none print:rounded-none print:bg-white print:text-black pb-16 md:pb-0 animate-in fade-in zoom-in-95 duration-700 relative">
+
+            {/* Print-Only QR Code - Top Right of Page 1 */}
+            <div className="hidden print:flex flex-col items-center absolute top-4 right-4 z-50">
+              <span className="text-[10px] text-black font-semibold mb-1">Live Resume</span>
+              <div className="bg-white p-1">
+                <QRCode
+                  value="https://pechjacob.github.io/live-resume/"
+                  size={64}
+                  style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                  viewBox={`0 0 256 256`}
+                />
+              </div>
+            </div>
 
             {/* Desktop Theme Toggle - Absolute Top Right - Hidden in Print */}
 
