@@ -338,7 +338,7 @@ function App() {
 
               <div className="space-y-3">
                 <h2 className="text-2xl font-bold text-white tracking-[0.2em] font-mono drop-shadow-md">
-                  SYSTEM INITIALIZED
+                  RESUME INITIALIZED
                 </h2>
                 <div className="h-px w-24 bg-gradient-to-r from-transparent via-matrix-green/50 to-transparent mx-auto" />
 
