@@ -94,9 +94,9 @@ const Sidebar: React.FC<SidebarProps> = ({ handlePrint }) => {
   return (
     <div className="flex flex-col space-y-8 p-6 md:pr-8 text-center md:text-left h-full relative print:text-black">
       {/* Profile Header */}
-      <div className="flex flex-col items-center md:items-start gap-4">
+      <div className="flex flex-col items-center gap-4">
         <div
-          className="relative w-48 h-48 md:w-56 md:h-56 mx-auto md:mx-0 group perspective-1000"
+          className="relative w-48 h-48 md:w-56 md:h-56 mx-auto group perspective-1000"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           onClick={handleImageInteraction}
@@ -127,7 +127,7 @@ const Sidebar: React.FC<SidebarProps> = ({ handlePrint }) => {
             )}
           </div>
         </div>
-        <div className="text-center md:text-left">
+        <div className="text-center">
           <h1 className="text-3xl font-bold underline decoration-2 underline-offset-4 decoration-gray-900 dark:decoration-white mb-2 uppercase tracking-wide">
             <span className="bg-gradient-to-r from-green-400 via-purple-500 to-orange-500 bg-clip-text text-transparent">
               {personal.name}
