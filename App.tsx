@@ -19,10 +19,21 @@ function App() {
   const autoScrollIntervalRef = useRef<number | null>(null);
   const [showStartOverlay, setShowStartOverlay] = useState(false);
 
-  // Check if mobile and show overlay (Now enabled for ALL devices per request)
+  // Check device type for behavior
   useEffect(() => {
-    // Enable for everyone
-    setShowStartOverlay(true);
+    const isMobile = window.innerWidth < 768;
+
+    if (isMobile) {
+      // Mobile: Show "Launch Experience" overlay (Vignette)
+      setShowStartOverlay(true);
+    } else {
+      // Desktop: No overlay, just auto-start scrolling after intro animations
+      // Wait for EncryptedText (2.5s) + buffer = 3.5s
+      const timer = setTimeout(() => {
+        startAutoScroll();
+      }, 3500);
+      return () => clearTimeout(timer);
+    }
   }, []);
 
   const handleStartExperience = () => {
