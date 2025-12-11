@@ -19,12 +19,10 @@ function App() {
   const autoScrollIntervalRef = useRef<number | null>(null);
   const [showStartOverlay, setShowStartOverlay] = useState(false);
 
-  // Check if mobile and show overlay
+  // Check if mobile and show overlay (Now enabled for ALL devices per request)
   useEffect(() => {
-    const isMobile = window.innerWidth < 768;
-    if (isMobile) {
-      setShowStartOverlay(true);
-    }
+    // Enable for everyone
+    setShowStartOverlay(true);
   }, []);
 
   const handleStartExperience = () => {
@@ -369,9 +367,18 @@ function App() {
 
       {/* Desktop Floating Badge - Glass Style */}
       <div className="hidden md:flex fixed bottom-12 right-0 z-50 items-center justify-center w-96 pl-10 pr-10 py-4 bg-black/30 dark:bg-white/30 backdrop-blur-xl border-l border-t border-b border-gray-200/20 shadow-2xl rounded-l-full no-print">
-        <span className="font-bold text-xl tracking-widest text-shadow-sm text-gray-200 dark:text-gray-800 uppercase font-mono">
-          LIVE RESUME
-        </span>
+        <div className="flex items-center gap-6">
+          <button
+            onClick={toggleAutoScroll}
+            className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-gray-200 dark:text-gray-800 transition-colors"
+            title={isAutoScrolling ? "Pause Auto-Scroll" : "Resume Auto-Scroll"}
+          >
+            {isAutoScrolling ? <Pause size={24} /> : <Play size={24} />}
+          </button>
+          <span className="font-bold text-xl tracking-widest text-shadow-sm text-gray-200 dark:text-gray-800 uppercase font-mono">
+            LIVE RESUME
+          </span>
+        </div>
       </div>
 
       {/* Desktop Quick Actions (Optional) */}
