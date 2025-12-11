@@ -401,7 +401,7 @@ function App() {
       )}
 
       {/* Desktop Floating Badge - Glass Style - Integrated Controls */}
-      <div className="hidden md:flex fixed bottom-12 right-0 z-50 items-center justify-center w-auto min-w-[380px] pl-10 pr-10 py-4 bg-white/40 dark:bg-black/40 backdrop-blur-xl border-l border-t border-b border-white/20 dark:border-white/10 shadow-2xl rounded-l-full no-print">
+      <div className="hidden md:flex fixed bottom-12 right-0 z-50 items-center justify-center w-auto min-w-[380px] pl-10 pr-10 py-4 bg-white/40 dark:bg-white/10 backdrop-blur-xl border-l border-t border-b border-white/20 dark:border-white/10 shadow-2xl rounded-l-full no-print">
         <div className="flex items-center gap-6">
           {/* Download */}
           <button
