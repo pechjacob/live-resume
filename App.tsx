@@ -195,39 +195,37 @@ function App() {
         {!showStartOverlay && (
           <div className="resume-container w-full max-w-6xl bg-white/40 md:bg-white/85 dark:bg-[#121212]/60 md:dark:bg-[#121212]/90 backdrop-blur-sm shadow-2xl rounded-none md:rounded-lg overflow-hidden transition-colors duration-300 border border-transparent dark:border-gray-800 print:border-none print:shadow-none print:rounded-none print:bg-white print:text-black pb-16 md:pb-0 animate-in fade-in zoom-in-95 duration-700 relative">
 
-            {/* CSS Injection for Print QR - Bypasses external file issues */}
-            <style>{`
-              @media print {
-                .print-qr-direct {
-                  display: flex !important;
-                  flex-direction: column !important;
-                  align-items: center !important;
-                  position: absolute !important;
-                  top: 16px !important;
-                  right: 16px !important;
-                  z-index: 50 !important;
-                }
-              }
-            `}</style>
-
-            {/* Print-Only QR Code - Top Right of Page 1 */}
-            <div className="hidden print:flex print-qr-direct bg-white p-2">
-              <a
-                href="https://pechjacob.github.io/live-resume/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[10px] text-black font-semibold mb-1 no-underline hover:underline text-center"
-              >
-                Live Resume
-              </a>
-              <div className="bg-white p-1">
-                <QRCode
-                  value="https://pechjacob.github.io/live-resume/"
-                  size={64}
-                  style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                  viewBox={`0 0 256 256`}
-                />
-              </div>
+            {/* Print-Only QR Code - Top Right of Page 1 - Table Layout for Invincibility */}
+            <div className="hidden print:block absolute top-4 right-4 z-50 bg-white p-2">
+              <table style={{ borderCollapse: 'collapse', width: 'auto' }}>
+                <tbody>
+                  <tr>
+                    <td align="center" style={{ paddingBottom: '4px' }}>
+                      <a
+                        href="https://pechjacob.github.io/live-resume/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[10px] text-black font-semibold no-underline hover:underline"
+                        style={{ display: 'block', width: '100%', textAlign: 'center' }}
+                      >
+                        Live Resume
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="center">
+                      <div className="bg-white p-1 inline-block">
+                        <QRCode
+                          value="https://pechjacob.github.io/live-resume/"
+                          size={64}
+                          style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                          viewBox={`0 0 256 256`}
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
 
             {/* Desktop Theme Toggle - Absolute Top Right - Hidden in Print */}
