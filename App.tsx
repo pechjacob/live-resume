@@ -434,7 +434,7 @@ function App() {
             title="Toggle Theme"
             aria-label="Toggle Theme"
           >
-            {darkMode ? <Sun size={24} className="text-matrix-green" /> : <Moon size={24} className="text-gray-800 dark:text-gray-200" />}
+            {darkMode ? <Sun size={24} className="text-matrix-green" /> : <Moon size={24} className="text-matrix-green" />}
           </button>
         </div>
       </div>
