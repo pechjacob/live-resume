@@ -401,12 +401,12 @@ function App() {
       )}
 
       {/* Desktop Floating Badge - Glass Style - Integrated Controls */}
-      <div className="hidden md:flex fixed bottom-12 right-0 z-50 items-center justify-center w-auto min-w-[380px] pl-10 pr-10 py-4 bg-black/30 dark:bg-white/30 backdrop-blur-xl border-l border-t border-b border-gray-200/20 shadow-2xl rounded-l-full no-print">
+      <div className="hidden md:flex fixed bottom-12 right-0 z-50 items-center justify-center w-auto min-w-[380px] pl-10 pr-10 py-4 bg-white/30 dark:bg-black/30 backdrop-blur-xl border-l border-t border-b border-gray-200/20 shadow-2xl rounded-l-full no-print">
         <div className="flex items-center gap-6">
           {/* Download */}
           <button
             onClick={handlePrint}
-            className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-gray-200 dark:text-gray-800 transition-colors"
+            className="p-2 rounded-full hover:bg-black/10 dark:hover:bg-white/10 text-gray-800 dark:text-gray-200 transition-colors"
             title="Download Resume"
             aria-label="Download Resume"
           >
@@ -416,25 +416,25 @@ function App() {
           {/* Play/Pause */}
           <button
             onClick={toggleAutoScroll}
-            className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+            className="p-2 rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition-colors"
             title={isAutoScrolling ? "Pause Auto-Scroll" : "Resume Auto-Scroll"}
           >
             {isAutoScrolling ? <Pause size={24} className="text-red-500" /> : <Play size={24} className="text-green-500" />}
           </button>
 
           {/* Text */}
-          <span className="font-bold text-xl tracking-widest text-shadow-sm text-gray-200 dark:text-gray-800 uppercase font-mono whitespace-nowrap">
+          <span className="font-bold text-xl tracking-widest text-shadow-sm text-gray-800 dark:text-gray-200 uppercase font-mono whitespace-nowrap">
             LIVE RESUME
           </span>
 
           {/* Theme Toggle */}
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+            className="p-2 rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition-colors"
             title="Toggle Theme"
             aria-label="Toggle Theme"
           >
-            {darkMode ? <Sun size={24} className="text-matrix-green" /> : <Moon size={24} className="text-gray-200 dark:text-gray-800" />}
+            {darkMode ? <Sun size={24} className="text-matrix-green" /> : <Moon size={24} className="text-gray-800 dark:text-gray-200" />}
           </button>
         </div>
       </div>
