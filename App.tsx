@@ -294,7 +294,7 @@ function App() {
         </div>
 
         <span className="font-bold text-lg tracking-tight text-white dark:text-black">
-          LIVE Resume
+          LIVE RESUME
         </span>
 
         <button
